@@ -36,9 +36,12 @@ services:
     command: npm start
     expose:
       - ${WEB_PORT}
+      - 35729
     ports: 
       - ${WEB_PORT}:3000
+      - 35729:35729
     volumes:
+      - /usr/app/ebay-alert-web/node_modules
       - ./client/src:/usr/app/ebay-alert-web/src
     environment:
       - API_HOST=${API_HOST}
