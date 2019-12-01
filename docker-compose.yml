@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      DB_USERNAME: root
+      PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    expose:
+      - ${DB_ADMIN_PORT}
+    ports:
+      - ${DB_ADMIN_PORT}:8081
+    environment:
+      ADMINUSERNAME: root
+      ADMINPASSWORD: example
+
+  server:
+    build: ./server
+    command: npm run dev
+    expose:
+      - ${API_PORT}
+    ports: 
+      - ${API_PORT}:${API_PORT}
+    volumes:
+      - ./server/src:/usr/app/ebay-alert-api/src
+    environment:
+      - API_PORT=${API_PORT}
+
+  client:
+    build: ./client
+    command: npm start
+    expose:
+      - ${WEB_PORT}
+    ports: 
+      - ${WEB_PORT}:3000
+    volumes:
+      - ./client/src:/usr/app/ebay-alert-web/src
+    environment:
+      - API_HOST=${API_HOST}
+    links:
+      - server
+
+
+      
