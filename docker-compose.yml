@@ -30,6 +30,7 @@ services:
       - ./server/src:/usr/app/ebay-alert-api/src
     environment:
       - API_PORT=${API_PORT}
+      - DATABASE_URL=${DATABASE_URL}
 
   client:
     build: ./client
@@ -47,6 +48,8 @@ services:
       - API_HOST=${API_HOST}
     links:
       - server
+
+
 
 
       

@@ -4,13 +4,16 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test mocha 'test/**/*.test.js'",
+    "test:model": "NODE_ENV=test mocha 'test/model/**/*.test.js'",
     "dev": "nodemon src/index.js -L --verbose"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "mocha": "^6.2.2",
+    "mongoose": "^5.7.13",
     "nodemon": "^2.0.1"
   }
 }
