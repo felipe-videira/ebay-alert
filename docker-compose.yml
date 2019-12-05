@@ -34,6 +34,7 @@ services:
       - EBAY_APP_ID=${EBAY_APP_ID}
       - EBAY_ALERT_API_URL=${EBAY_ALERT_API_URL}
       - EBAY_SEARCH_API_URL=${EBAY_SEARCH_API_URL}
+      - EMAIL_SENDER=${EMAIL_SENDER}
 
   client:
     build: ./client
