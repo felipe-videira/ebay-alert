@@ -23,14 +23,21 @@ module.exports = async frequency => {
         const scheduleEmailRequests = []
         for (let i = 0; i < priceChangesBySearchPhrase.length; i++) {
             if (priceChangesBySearchPhrase[i].length) {
-                scheduleEmailRequests.push(scheduleEmail(alerts[i], priceChangesBySearchPhrase[i]))
+                scheduleEmailRequests.push(scheduleEmail(formatEmail(alerts[i], priceChangesBySearchPhrase[i])))
             }
         }       
         const emailsScheduled = await Promise.all(scheduleEmailRequests)
+
+        console.log("emailsScheduled [checkPriceAlerts]: ", emailsScheduled)
 
     } catch (error) {
         console.log("Error [checkPriceAlerts]: ", error)
 
         return
     }
+}
+
+
+const formatEmail = (alert, priceChages) => {
+    
 }

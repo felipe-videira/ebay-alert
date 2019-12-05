@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const { emailValidation } = require('../utils')
-const { FREQUENCY_TYPES } = require('../utils/constants')
+const mongoose = require('mongoose');
+const { emailValidation } = require('../utils');
+const { FREQUENCY_TYPES } = require('../utils/constants');
 
 const alertSchema = new mongoose.Schema({
   searchPhrase: {
@@ -19,6 +19,6 @@ const alertSchema = new mongoose.Schema({
     required: true,
     validate: [emailValidation, '{PATH} invalid.']
   }
-})
+});
 
-module.exports = mongoose.model('Alert', alertSchema)
+module.exports = mongoose.model('Alert', alertSchema);
