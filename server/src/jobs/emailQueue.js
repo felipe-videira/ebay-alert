@@ -1,4 +1,4 @@
-const Email = require('../models/Email');
+const Email = require('../models/email');
 const sendEmail = require('../services/sendEmail');
 
 module.exports = async frequency => {
