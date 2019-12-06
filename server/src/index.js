@@ -1,6 +1,6 @@
+const jobs = require('./jobs');
 const express = require('express');
 const routes = require('./routes');
-const jobs = require('./jobs');
 
 const PORT = process.env.API_PORT;
 const app = express();

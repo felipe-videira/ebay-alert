@@ -8,9 +8,8 @@ module.exports = async (subject, html, to) => {
             to,
             from: process.env.EMAIL_SENDER 
         }).save();
-        
     } catch (error) {
-        console.log("Error [scheduleEmail]: ", error);
+        console.log("[scheduleEmail] error: ", error);
 
         throw error;
     }

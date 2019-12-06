@@ -18,6 +18,18 @@ const alertSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: [emailValidation, '{PATH} invalid.']
+  },
+  deleted: {
+    type: Number,
+    default: 0
+  },
+  createdAt: {
+    type: Date,
+    default: new Date().toISOString()
+  },
+  lastModifiedAt: {
+    type: Date,
+    default: new Date().toISOString()
   }
 });
 

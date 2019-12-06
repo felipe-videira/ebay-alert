@@ -1,62 +1,42 @@
 
 const axios = require('axios')
 
-module.exports.findItemsByKeywords = async (keywords, entriesPerPage = 10) => {
+module.exports.findItemsByKeywords = async (keywords, entriesPerPage = 3) => {
     try {
-        const { data } = await axios.get(process.env.EBAY_SEARCH_API_URL, {
-            params: {
-                'OPERATION-NAME': 'findItemsByKeywords',
-                'SERVICE-VERSION': '1.13.0',
-                'SECURITY-APPNAME': process.env.EBAY_APP_ID,
-                'GLOBAL-ID': 'EBAY-US',
-                'RESPONSE-DATA-FORMAT': 'JSON',
-                'keywords': keywords,
-                'paginationInput.entriesPerPage': entriesPerPage,
-                'REST-PAYLOAD': true,
-            }
-        })
+        const params =  {
+            'OPERATION-NAME': 'findItemsByKeywords',
+            'SERVICE-VERSION': '1.13.0',
+            'SECURITY-APPNAME': process.env.EBAY_APP_ID,
+            'GLOBAL-ID': 'EBAY-US',
+            'RESPONSE-DATA-FORMAT': 'JSON',
+            'keywords': encodeURIComponent(keywords),
+            'paginationInput.entriesPerPage': entriesPerPage,
+            'REST-PAYLOAD': true,
+            'sortOrder': 'PricePlusShippingLowest'
+        }
+
+        console.log("[findItemsByKeywords] params: ", params)
+        
+        const { data } = await axios.get(process.env.EBAY_SEARCH_API_URL, { params })
+
+        console.log("[findItemsByKeywords] data: ", data)
 
         const [ response ] = data.findItemsByKeywordsResponse
 
-        if (response[0].Ack[0] !== "Success") {
-            throw response[0].Errors;
+        if (response.ack[0] !== "Success") {
+            throw response.Errors;
         }
         
-        return response.item[0]
+        return response.searchResult[0].item.map(o => ({
+            id: o.itemId[0],
+            title: o.title[0],
+            price: `${o.sellingStatus[0].currentPrice[0]['@currencyId']} ${o.sellingStatus[0].currentPrice[0].__value__}`
+        }))
 
     } catch (error) {
-        console.log("Error [findItemsByKeywords]: ", error)
+        console.log("[findItemsByKeywords] error: ", error)
 
         throw error
     }
 }
 
-module.exports.getPriceChange = async (itemsIds, lastRequestTime) => {
-    try {
-        const params = {
-            'Version': '1127',
-            'callname': 'GetPublicAlerts',
-            'LastRequestTime': lastRequestTime,
-            'ApplicationID': process.env.EBAY_APP_ID,
-        }
-
-        for (let i = 0; i < itemsIds.length; i++) {
-            params[`ChannelDescriptor(${i}).EventType`] = 'PriceChange'
-            params[`ChannelDescriptor(${i}).ChannelType`] = 'Item'
-            params[`ChannelDescriptor(${i}).ChannelID`] = itemsIds[i]
-        }
-
-        const { data } = await axios.get(process.env.EBAY_ALERT_API_URL, { params })
-
-        if (data.Ack[0] !== "Success") {
-            throw response[0].Errors;
-        }
-
-        return data.Content
-        
-    } catch (error) {
-        console.log("Error [getPriceChange]: ", error)
-
-        throw error
-    }
-}

@@ -18,10 +18,15 @@ module.exports = async email => {
             });
         }
     
-        return transporter.sendMail(email);
+        return transporter.sendMail({
+            to: email.to,
+            from: email.from,
+            subject: email.subject,
+            html: email.html,
+        });
 
     } catch (error) {
-        console.log("Error [sendEmail]: ", error);
+        console.log("[sendEmail]: error", error);
 
         throw error;
     }
