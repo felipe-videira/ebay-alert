@@ -26,7 +26,7 @@ module.exports = async frequency => {
         for (let i = 0; i < itemsBySearchPhrase.length; i++) {
             if (!emailTemplate) emailTemplate = Handlebars.compile(emailHtml);
 
-            scheduleEmailRequests.push(scheduleEmail(emailSubject, emailTemplate(itemsBySearchPhrase[i]), alerts[i].email));
+            scheduleEmailRequests.push(scheduleEmail(emailSubject, emailTemplate(itemsBySearchPhrase[i]), alerts[i].email, frequency));
         }       
         const emailsScheduled = await Promise.all(scheduleEmailRequests);
 
@@ -37,6 +37,3 @@ module.exports = async frequency => {
         return;
     }
 }
-
-
-
