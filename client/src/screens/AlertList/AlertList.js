@@ -1,7 +1,7 @@
-import './style.css';
+import './AlertList.css';
 import axios from 'axios';
-import { Table, Button, message } from 'antd';
 import React, { Component } from 'react';
+import { Table, Button, message } from 'antd';
 
 class AlertList extends Component {
 
@@ -55,10 +55,9 @@ class AlertList extends Component {
     try {
       this.setState({ loading: true });
       
-      const { data } = await axios.delete(`${process.env.API_HOST}/${item.id}`);
+      await axios.delete(`${process.env.API_HOST}/${item.id}`);
       
-      this.setState({ data });
-
+      message.success("Alert successfully deleted");
     } catch (error) {
       message.error("An error occurred please try again later");
 

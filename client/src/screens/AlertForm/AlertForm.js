@@ -1,4 +1,4 @@
-import './style.css';
+import './AlertForm.css';
 import React, { Component } from 'react';
 
 class AlertForm extends Component {

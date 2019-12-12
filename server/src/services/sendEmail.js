@@ -5,7 +5,7 @@ let transporter = null;
 
 module.exports = async email => {
     try {
-        await new Email(email).validateSync();
+        new Email(email).validateSync()
     
         if (!transporter) {
             const { user, pass } = await nodemailer.createTestAccount();
@@ -26,7 +26,7 @@ module.exports = async email => {
         });
 
     } catch (error) {
-        console.log("[sendEmail]: error", error);
+        console.log("[sendEmail] error:", error);
 
         throw error;
     }
