@@ -15,11 +15,7 @@ module.exports.findItemsByKeywords = async (keywords, entriesPerPage = 3) => {
             'sortOrder': 'PricePlusShippingLowest'
         }
 
-        console.log("[findItemsByKeywords] params: ", params)
-        
         const { data } = await axios.get(process.env.EBAY_SEARCH_API_URL, { params })
-
-        console.log("[findItemsByKeywords] data: ", data)
 
         const [ response ] = data.findItemsByKeywordsResponse
 
@@ -34,8 +30,6 @@ module.exports.findItemsByKeywords = async (keywords, entriesPerPage = 3) => {
         }))
 
     } catch (error) {
-        console.log("[findItemsByKeywords] error: ", error)
-
         throw error
     }
 }

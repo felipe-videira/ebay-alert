@@ -3,25 +3,20 @@ const sendEmail = require('../services/sendEmail');
 
 module.exports = async frequency => {
     try {
-        console.log(`[emailQueue-f${frequency}]`);
-
+        console.log(`emailQueue of frequency: ${frequency} starting!`)
+        
         const emails = await Email.find({ frequency, deleted: 0 });
 
-        console.log(`[emailQueue-f${frequency}] emails: `, emails);
-
+        console.log('emails:', emails)
+        
         const sendEmailRequests = [];
-
         for (const email of emails) {
             sendEmailRequests.push(sendEmail(email));
         }
-
-        const emailsSendedResult = await Promise.all(sendEmailRequests);
-
-        console.log(`[emailQueue-f${frequency}] emailsSendedResult: `, emailsSendedResult);
+        await Promise.all(sendEmailRequests);
 
     } catch (error) {
-        console.log(`[emailQueue-f${frequency}] error: `, error);
-
+        // TODO: tratar erro
         return;
     }
 }

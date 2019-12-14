@@ -5,6 +5,7 @@ let transporter = null;
 
 module.exports = async email => {
     try {
+        console.log(email)
         new Email(email).validateSync()
     
         if (!transporter) {
@@ -26,8 +27,6 @@ module.exports = async email => {
         });
 
     } catch (error) {
-        console.log("[sendEmail] error:", error);
-
         throw error;
     }
 }

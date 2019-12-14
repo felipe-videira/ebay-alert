@@ -1,0 +1,12 @@
+.alert-list {
+
+    &__create-button {
+        position: fixed;
+        right: 5%;
+        bottom: 10%;
+        width: 60px;
+        height: 60px;
+        line-height: 1;
+        font-size: 26px;
+    }
+}

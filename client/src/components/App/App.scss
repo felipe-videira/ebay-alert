@@ -1,0 +1,14 @@
+.app {
+    
+    &__content {
+        min-height:100%;
+        position:relative;
+    }
+
+    &__footer {
+        position: absolute;
+        bottom:0;
+        left:0;
+        width:100%;
+    }
+}

@@ -34,6 +34,8 @@ services:
       - EBAY_APP_ID=${EBAY_APP_ID}
       - EBAY_SEARCH_API_URL=${EBAY_SEARCH_API_URL}
       - EMAIL_SENDER=${EMAIL_SENDER}
+    links:
+      - mongo
 
   client:
     build: ./client
@@ -48,7 +50,8 @@ services:
       - /usr/app/ebay-alert-web/node_modules
       - ./client/src:/usr/app/ebay-alert-web/src
     environment:
-      - API_HOST=${API_HOST}
+      - REACT_APP_API_HOST=${REACT_APP_API_HOST}
+      - CHOKIDAR_USEPOLLING=true
     links:
       - server
 

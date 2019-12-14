@@ -1,7 +1,8 @@
-import './AlertList.css';
-import axios from 'axios';
+import './AlertList.scss';
+
 import React, { Component } from 'react';
-import { Table, Button, message } from 'antd';
+import { Table, Button, message, Layout } from 'antd';
+import request from '../../services/request'
 
 class AlertList extends Component {
 
@@ -39,7 +40,7 @@ class AlertList extends Component {
     try {
       this.setState({ loading: true });
       
-      const { data } = await axios.get(process.env.API_HOST);
+      const { data } = await request('/alert', 'GET')
       
       this.setState({ data });
 
@@ -55,9 +56,9 @@ class AlertList extends Component {
     try {
       this.setState({ loading: true });
       
-      await axios.delete(`${process.env.API_HOST}/${item.id}`);
+      await request(`/alert/${item.id}`, 'DELETE')  
       
-      message.success("Alert successfully deleted");
+      message.success("Alert successfully deleted!");
     } catch (error) {
       message.error("An error occurred please try again later");
 
@@ -82,11 +83,20 @@ class AlertList extends Component {
     } = this.state; 
 
     return (
-      <Table 
-        columns={columns} 
-        dataSource={data}
-        loading={loading} 
-      />  
+      <Layout>
+        <Table 
+          columns={columns} 
+          dataSource={data}
+          loading={loading} 
+        ></Table>  
+        <Button 
+          type="primary" 
+          shape="circle" 
+          icon="plus"
+          className="alert-list__create-button" 
+          onClick={() => this.createItem()} 
+        ></Button> 
+      </Layout>
     );
   }
 }

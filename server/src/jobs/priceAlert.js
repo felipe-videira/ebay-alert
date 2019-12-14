@@ -8,11 +8,9 @@ let emailTemplate = null;
 
 module.exports = async frequency => {
     try {
-        console.log(`[priceAlerts-f${frequency}]`);
+        console.log(`priceAlert of frequency: ${frequency} starting!`)
 
         const alerts = await Alert.find({ frequency, deleted: 0 });
-
-        console.log(`[priceAlerts-f${frequency}] alerts: `, alerts);
 
         const itemsRequests = [];
         for (const { searchPhrase } of alerts) {
@@ -20,20 +18,20 @@ module.exports = async frequency => {
         }
         const itemsBySearchPhrase = await Promise.all(itemsRequests);
 
-        console.log(`[priceAlerts-f${frequency}] itemsBySearchPhrase: `, itemsBySearchPhrase);
-        
+        if (!emailTemplate && !!itemsBySearchPhrase.length) {
+            emailTemplate = Handlebars.compile(emailHtml);
+        }
+
         const scheduleEmailRequests = [];
         for (let i = 0; i < itemsBySearchPhrase.length; i++) {
-            if (!emailTemplate) emailTemplate = Handlebars.compile(emailHtml);
+            scheduleEmailRequests.push(
+                scheduleEmail(emailSubject, emailTemplate(itemsBySearchPhrase[i]), alerts[i].email, frequency)
+            );
+        }
+        await Promise.all(scheduleEmailRequests);
 
-            scheduleEmailRequests.push(scheduleEmail(emailSubject, emailTemplate(itemsBySearchPhrase[i]), alerts[i].email, frequency));
-        }       
-        const emailsScheduled = await Promise.all(scheduleEmailRequests);
-
-        console.log(`[priceAlerts-f${frequency}] emailsScheduled: `, emailsScheduled);
     } catch (error) {
-        console.log(`[priceAlerts-f${frequency}] error: `, error);
-
+        // TODO: tratar erro
         return;
     }
 }
