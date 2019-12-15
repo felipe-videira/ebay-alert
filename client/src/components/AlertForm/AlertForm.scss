@@ -1,0 +1,16 @@
+.alert-form {
+    padding: 5%;
+
+    &__item {
+        margin: 35px 0;
+        width: 70%;
+    }
+
+    &__button {
+        margin: 0 10px;
+    }
+
+    &__loader {
+        margin: 50%;
+    }
+}

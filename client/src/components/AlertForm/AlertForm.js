@@ -8,6 +8,8 @@ import {
   Input, 
   Button, 
   Select,
+  Spin, 
+  Icon
 } from 'antd';
 
 
@@ -25,13 +27,12 @@ class AlertForm extends Component {
     })
 
     const { id } = this.props.match.params;
-    const { validateFields, setFields } = this.props.form;
 
     if (!id) return;
 
     const { _id, ...item } = await this.getItem(id);
 
-    setFields({
+    this.props.form.setFields({
       email: { value: item.email },
       searchPhrase: { value: item.searchPhrase }, 
       frequency: { value: item.frequency },
@@ -89,42 +90,55 @@ class AlertForm extends Component {
   }
   
   render () {
-    const { getFieldDecorator } = this.props.form;
-    const { data, loading, frequencies } = this.state;
+    const { form: { getFieldDecorator }, history } = this.props;
+    const { loading, frequencies } = this.state;
     
-      return (
-        <Form 
+    return loading 
+      ? <Spin className="alert-form__loader"></Spin>
+      : <Form 
           className="alert-form" 
           onSubmit={() => this.handleSubmit()}
         >
-          <Form.Item>
+          <Button onClick={() => history.goBack()}>
+            <Icon type="left"></Icon>
+          </Button>
+          <Form.Item className="alert-form__item">
             {getFieldDecorator('email', { 
               rules: [{ 
                 required: true,
                 message: 'Please input your email!' 
               }]
             })(
-              <Input placeholder="Email" />,
+              <Input 
+                size="large" 
+                placeholder="Email" 
+              />,
             )}
           </Form.Item>
-          <Form.Item>
+          <Form.Item className="alert-form__item">
             {getFieldDecorator('searchPhrase', { 
               rules: [{ 
                 required: true,
                 message: 'Please input the search phrase!' 
               }]
             })(
-              <Input placeholder="Email" />,
+              <Input 
+                size="large" 
+                placeholder="Search Phrase" 
+              />,
             )}
           </Form.Item>
-          <Form.Item>
+          <Form.Item className="alert-form__item">
             {getFieldDecorator('frequency', { 
               rules: [{ 
                 required: true, 
                 message: 'Please select a frequency!' 
               }]
             })(
-              <Select>
+              <Select 
+                size="large"
+                placeholder="Frequency"
+              >
                 {frequencies.map(o => 
                   <Select.Option value={o.value}>
                     {o.label}
@@ -136,18 +150,19 @@ class AlertForm extends Component {
           <Button 
             className="alert-form__button" 
             type="primary" 
+            size="large"
             htmlType="submit"
           >
             Save
           </Button>
           <Button 
             onClick={this.handleReset}
+            size="large"
             className="alert-form__button" 
           >
             Clear
           </Button>
         </Form>
-      );
   }
 }
 

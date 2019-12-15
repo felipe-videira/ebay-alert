@@ -1,4 +1,7 @@
 .alert-list {
+    min-height: 100%;
+    background-color: #fff;
+    padding: 5%;
 
     &__create-button {
         position: fixed;
@@ -8,5 +11,17 @@
         height: 60px;
         line-height: 1;
         font-size: 26px;
+    }
+
+    &__load-more-button {
+        text-align: center;
+        margin: 5% 40%;
+        width: 20%;
+    }
+
+    &__empty {
+        color: #5d5c5c;
+        font-size: 16px;
+        margin: 10% 0;
     }
 }

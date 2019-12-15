@@ -1,35 +1,13 @@
 import './AlertList.scss';
-
 import React, { Component } from 'react';
-import { Table, Button, message, Layout } from 'antd';
-import request from '../../services/request'
+import request from '../../services/request';
+import { Empty, Button, message, Layout, List, Skeleton } from 'antd';
 
 class AlertList extends Component {
 
   state = {
     loading: false,
     data: [],
-    columns: [
-      { title: 'Email', dataIndex: 'email' },
-      { title: 'Search Phrase', dataIndex: 'searchPhrase' },
-      { title: 'Frequency', dataIndex: 'frequency' },
-      { 
-        render: (text, item) => <Button 
-          type="primary" 
-          shape="circle" 
-          icon="edit" 
-          onClick={() => this.editItem(item)} 
-        /> 
-      },
-      { 
-        render: (text, item) => <Button 
-          type="primary" 
-          shape="circle" 
-          icon="delete" 
-          onClick={() => this.deleteItem(item)} 
-        /> 
-      },
-    ]
   }
 
   componentDidMount () {
@@ -76,26 +54,74 @@ class AlertList extends Component {
   }
 
   render () {
-    const { 
-      columns, 
-      data,
-      loading,
-    } = this.state; 
+    const { data, loading } = this.state; 
 
     return (
-      <Layout>
-        <Table 
-          columns={columns} 
-          dataSource={data}
-          loading={loading} 
-        ></Table>  
+      <Layout className="alert-list">
+        {!data.length 
+          ? <Empty 
+              className="alert-list__empty"
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="You have no alerts"
+            >
+              <Button 
+                type="primary"
+                size="large"
+                onClick={() => this.createItem()} 
+              >
+                Create one
+              </Button>
+            </Empty>
+          : <List
+              className="alert-list"
+              loading={loading}
+              itemLayout="horizontal"
+              loadMore={!loading && !!data.length && (
+                <Button 
+                  className="alert-list__load-more-button" 
+                  onClick={this.onLoadMore}
+                >
+                  Load more
+                </Button>
+              )}
+              dataSource={data}
+              renderItem={item => (
+                <List.Item
+                  actions={[
+                    <Button 
+                      shape="circle" 
+                      icon="edit"
+                      onClick={() => this.editItem(item)} 
+                    />,
+                    <Button 
+                      shape="circle" 
+                      icon="delete" 
+                      onClick={() => this.deleteItem(item)} 
+                    /> 
+                  ]}
+                >
+                  <Skeleton 
+                    title={false} 
+                    loading={item.loading} 
+                    active
+                  >
+                    <List.Item.Meta
+                      title={`"${item.searchPhrase}"`}
+                      description={`send to ${item.email}`}
+                    />
+                    <div>{`every ${item.frequency} minutes`}</div>
+                  </Skeleton>
+                </List.Item>
+              )}
+          />}
+        {!!data.length && 
         <Button 
           type="primary" 
           shape="circle" 
           icon="plus"
           className="alert-list__create-button" 
           onClick={() => this.createItem()} 
-        ></Button> 
+        ></Button>}
       </Layout>
     );
   }
