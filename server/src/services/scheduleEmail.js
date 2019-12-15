@@ -5,7 +5,7 @@ module.exports = async (subject, html, to, frequency) => {
         subject,
         html,
         to,
-        from: process.env.EMAIL_SENDER,
+        from: 'Ebay Alert <do-not-reply@ebayalert.com>',
         frequency: frequency.value
     }).save();
 }

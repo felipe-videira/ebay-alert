@@ -25,6 +25,7 @@ module.exports = async email => {
         });
 
         email.sended = 1;
+        email.lastModifiedAt = new Date().toISOString();
         return email.save();
 
     } catch (error) {

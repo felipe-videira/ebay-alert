@@ -2,6 +2,7 @@ import './AlertForm.scss';
 
 import React, { Component } from 'react';
 import request from '../../services/request';
+import { emailRegex } from '../../utils'; 
 import { 
   message, 
   Form, 
@@ -40,22 +41,6 @@ class AlertForm extends Component {
     })
   }
 
-  async getItem (id) {
-    try {
-      this.setState({ loading: true });
-      
-      const { data } = await request(`/alert/${id}`, 'GET')
-      
-      return data;
-
-    } catch (error) {
-      message.error("An error occurred please try again later");
-
-    } finally {
-      this.setState({ loading: false });
-    }
-  }
-
   async getFrequencies () {
     try {
       this.setState({ loading: true });
@@ -72,32 +57,50 @@ class AlertForm extends Component {
     }
   }
 
+  async getItem (id) {
+    try {
+      this.setState({ loading: true });
+      
+      const { data } = await request(`/alert/${id}`, 'GET')
+      
+      return data;
+
+    } catch (error) {
+      message.error("An error occurred please try again later");
+
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
+  async saveItem (item) {
+    try {
+      this.setState({ loadingSubmit: true });
+
+      const { match, history } = this.props;
+      
+      const { id } = match.params;
+
+      await request(`/alert/${id ? id : ''}`, id ? 'PATCH' : 'POST', item);
+      
+      message.success(`Alert successfully ${id ? 'updated' : 'created'}!`);
+
+      history.push('/');
+
+    } catch (error) {
+      message.error("An error occurred please try again later");
+
+    } finally {
+      this.setState({ loadingSubmit: false });
+    }
+  }
+
   handleSubmit (e) {
     e.preventDefault();
     
-    const { match, history, form } = this.props;
-
-    form.validateFieldsAndScroll(async (err, values) => {
-      try {
-        if (err) return;
-
-        this.setState({ loadingSubmit: true });
-        
-        const { id } = match.params;
-
-        await request(`/alert/${id ? id : ''}`, id ? 'PATCH' : 'POST', values);
-        
-        message.success(`Alert successfully ${id ? 'updated' : 'created'}!`);
-
-        history.push('/');
-  
-      } catch (error) {
-        message.error("An error occurred please try again later");
-  
-      } finally {
-        this.setState({ loadingSubmit: false });
-      }
-    });
+    this.props.form.validateFieldsAndScroll((err, values) => 
+      !err && this.saveItem(values)
+    );
   };
 
   handleReset = () => {
@@ -125,7 +128,10 @@ class AlertForm extends Component {
             {getFieldDecorator('email', { 
               rules: [{ 
                 required: true,
-                message: 'Please input your email!' 
+                message: 'please input your email' 
+              }, {
+                pattern: emailRegex,
+                message: 'please input a valid email' 
               }]
             })(
               <Input 
@@ -138,12 +144,15 @@ class AlertForm extends Component {
             {getFieldDecorator('searchPhrase', { 
               rules: [{ 
                 required: true,
-                message: 'Please input the search phrase!' 
+                message: 'please input a search phrase' 
+              }, {
+                max: 255,
+                message: 'please input a smaller search phrase'
               }]
             })(
               <Input 
                 size="large" 
-                placeholder="Search Phrase" 
+                placeholder="Search Phrase"
               />,
             )}
           </Form.Item>
@@ -151,7 +160,7 @@ class AlertForm extends Component {
             {getFieldDecorator('frequency', { 
               rules: [{ 
                 required: true, 
-                message: 'Please select a frequency!' 
+                message: 'please select a frequency' 
               }]
             })(
               <Select 
