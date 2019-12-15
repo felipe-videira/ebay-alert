@@ -25,7 +25,7 @@ module.exports.findItemsByKeywords = async (keywords, entriesPerPage = 3) => {
         
         return response.searchResult[0].item.map(o => ({
             id: o.itemId[0],
-            title: o.title[0],
+            title: o.title[0].replace(/"/g, '\\"'),
             price: `${o.sellingStatus[0].currentPrice[0]['@currencyId']} ${o.sellingStatus[0].currentPrice[0].__value__}`
         }))
 

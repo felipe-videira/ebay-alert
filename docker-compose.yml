@@ -33,6 +33,8 @@ services:
       - EBAY_APP_ID=${EBAY_APP_ID}
       - EBAY_SEARCH_API_URL=${EBAY_SEARCH_API_URL}
       - EMAIL_SENDER=${EMAIL_SENDER}
+      - EMAIL_SENDER_PASSWORD=${EMAIL_SENDER_PASSWORD}
+      - NODE_TLS_REJECT_UNAUTHORIZED=0 
 
   client:
     build: ./client

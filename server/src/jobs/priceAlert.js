@@ -8,9 +8,10 @@ let emailTemplate = null;
 
 module.exports = async frequency => {
     try {
-        console.log(`priceAlert of frequency: ${frequency} starting!`)
-
-        const alerts = await Alert.find({ frequency, deleted: 0 });
+        const alerts = await Alert.find({ 
+            frequency: frequency.value, 
+            deleted: 0 
+        });
 
         const itemsRequests = [];
         for (const { searchPhrase } of alerts) {
@@ -31,7 +32,6 @@ module.exports = async frequency => {
         await Promise.all(scheduleEmailRequests);
 
     } catch (error) {
-        // TODO: tratar erro
         return;
     }
 }

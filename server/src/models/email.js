@@ -26,6 +26,10 @@ const emailSchema = new mongoose.Schema({
         required: true,
         validate: [validateFrequency, '{PATH} invalid.']
     },
+    sended: {
+        type: Number,
+        default: 0
+    },
     deleted: {
         type: Number,
         default: 0

@@ -5,22 +5,27 @@ let transporter = null;
 module.exports = async email => {
     try {
         if (!transporter) {
-            const { user, pass } = await nodemailer.createTestAccount();
-    
             transporter = nodemailer.createTransport({
-              host: "smtp.ethereal.email",
-              port: 587,
-              secure: false, 
-              auth: { user, pass }
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_SENDER,
+                    pass: process.env.EMAIL_SENDER_PASSWORD
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
             });
         }
-    
-        return transporter.sendMail({
+        
+        await transporter.sendMail({
             to: email.to,
             from: email.from,
             subject: email.subject,
             html: email.html,
         });
+
+        email.sended = 1;
+        return email.save();
 
     } catch (error) {
         throw error;

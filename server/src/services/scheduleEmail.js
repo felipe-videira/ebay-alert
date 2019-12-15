@@ -6,6 +6,6 @@ module.exports = async (subject, html, to, frequency) => {
         html,
         to,
         from: process.env.EMAIL_SENDER,
-        frequency
+        frequency: frequency.value
     }).save();
 }
