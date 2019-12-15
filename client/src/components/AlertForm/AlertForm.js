@@ -18,25 +18,26 @@ class AlertForm extends Component {
   state = {
     data: {},
     loading: false,
+    loadingSubmit: false,
     frequencies: [] 
   }
 
   async componentDidMount() {
-    await this.setState({
+    this.setState({
       frequencies: await this.getFrequencies()
+    }, async () => {
+      const { id } = this.props.match.params;
+  
+      if (!id) return;
+  
+      const { _id, ...item } = await this.getItem(id);
+  
+      this.props.form.setFields({
+        email: { value: item.email },
+        searchPhrase: { value: item.searchPhrase }, 
+        frequency: { value: item.frequency },
+      });
     })
-
-    const { id } = this.props.match.params;
-
-    if (!id) return;
-
-    const { _id, ...item } = await this.getItem(id);
-
-    this.props.form.setFields({
-      email: { value: item.email },
-      searchPhrase: { value: item.searchPhrase }, 
-      frequency: { value: item.frequency },
-    });
   }
 
   async getItem (id) {
@@ -71,12 +72,30 @@ class AlertForm extends Component {
     }
   }
 
-  async handleSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault();
     
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
+    const { match, history, form } = this.props;
+
+    form.validateFieldsAndScroll(async (err, values) => {
+      try {
+        if (err) return;
+
+        this.setState({ loadingSubmit: true });
+        
+        const { id } = match.params;
+
+        await request(`/alert/${id ? id : ''}`, id ? 'PATCH' : 'POST', values);
+        
+        message.success(`Alert successfully ${id ? 'updated' : 'created'}!`);
+
+        history.push('/');
+  
+      } catch (error) {
+        message.error("An error occurred please try again later");
+  
+      } finally {
+        this.setState({ loadingSubmit: false });
       }
     });
   };
@@ -97,7 +116,7 @@ class AlertForm extends Component {
       ? <Spin className="alert-form__loader"></Spin>
       : <Form 
           className="alert-form" 
-          onSubmit={() => this.handleSubmit()}
+          onSubmit={e => this.handleSubmit(e)}
         >
           <Button onClick={() => history.goBack()}>
             <Icon type="left"></Icon>
@@ -140,7 +159,7 @@ class AlertForm extends Component {
                 placeholder="Frequency"
               >
                 {frequencies.map(o => 
-                  <Select.Option value={o.value}>
+                  <Select.Option key={o.value} value={o.value}>
                     {o.label}
                   </Select.Option>
                 )}
