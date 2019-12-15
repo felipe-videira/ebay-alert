@@ -30,9 +30,9 @@ router.post('/', async (req, res) => {
     try {
         const alert = new Alert(req.body);
 
-        const newAlert = await alert.save();
+        const { _id } = await alert.save();
 
-        res.status(201).json(newAlert._id);
+        res.status(201).json(_id);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

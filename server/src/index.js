@@ -1,12 +1,13 @@
 const jobs = require('./jobs');
 const express = require('express');
 const routes = require('./routes');
-const cors = require('cors')
+const cors = require('cors');
 
 const PORT = process.env.API_PORT;
 const app = express();
 
 require('./database');
+require('../initDb');
 
 app.use(express.json());
 app.use(cors());

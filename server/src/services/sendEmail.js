@@ -1,13 +1,9 @@
 const nodemailer = require("nodemailer");
-const Email = require('../models/email');
 
 let transporter = null;
 
 module.exports = async email => {
     try {
-        console.log(email)
-        new Email(email).validateSync()
-    
         if (!transporter) {
             const { user, pass } = await nodemailer.createTestAccount();
     

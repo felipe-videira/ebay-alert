@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { emailValidation } = require('../utils');
-const { FREQUENCY_TYPES } = require('../utils/constants');
+const validateFrequency = require('../services/validateFrequency');
 
 const emailSchema = new mongoose.Schema({
     subject: {
@@ -23,8 +23,8 @@ const emailSchema = new mongoose.Schema({
     }],
     frequency: {
         type: String,
-        enum: FREQUENCY_TYPES,
         required: true,
+        validate: [validateFrequency, '{PATH} invalid.']
     },
     deleted: {
         type: Number,

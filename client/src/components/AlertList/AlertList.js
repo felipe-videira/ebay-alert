@@ -72,7 +72,7 @@ class AlertList extends Component {
   }
   
   editItem (item) {
-    this.props.history.push('/alert', { id: item.id });
+    this.props.history.push(`/alert/${item._id}`);
   }
 
   render () {

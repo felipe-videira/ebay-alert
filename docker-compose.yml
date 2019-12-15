@@ -1,23 +1,20 @@
 version: "3"
 
 services:
-  mongo:
+  db:
     image: mongo
     restart: always
-    environment:
-      DB_USERNAME: root
-      PASSWORD: example
+    container_name: "mongo"
 
-  mongo-express:
+  db_admin:
     image: mongo-express
     restart: always
     expose:
       - ${DB_ADMIN_PORT}
     ports:
       - ${DB_ADMIN_PORT}:8081
-    environment:
-      ADMINUSERNAME: root
-      ADMINPASSWORD: example
+    depends_on:
+      - db
 
   server:
     build: ./server
@@ -28,14 +25,14 @@ services:
       - ${API_PORT}:${API_PORT}
     volumes:
       - ./server/src:/usr/app/ebay-alert-api/src
+    depends_on:
+      - db
     environment:
       - API_PORT=${API_PORT}
-      - DATABASE_URL=${DATABASE_URL}
+      - DB_URL=${DB_URL}
       - EBAY_APP_ID=${EBAY_APP_ID}
       - EBAY_SEARCH_API_URL=${EBAY_SEARCH_API_URL}
       - EMAIL_SENDER=${EMAIL_SENDER}
-    links:
-      - mongo
 
   client:
     build: ./client
@@ -49,11 +46,11 @@ services:
     volumes:
       - /usr/app/ebay-alert-web/node_modules
       - ./client/src:/usr/app/ebay-alert-web/src
+    depends_on:
+      - server
     environment:
       - REACT_APP_API_HOST=${REACT_APP_API_HOST}
       - CHOKIDAR_USEPOLLING=true
-    links:
-      - server
 
 
 
