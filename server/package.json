@@ -5,7 +5,6 @@
   "main": "src/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha 'test/**/*.test.js'",
-    "test:model": "NODE_ENV=test mocha 'test/model/**/*.test.js'",
     "dev": "nodemon src/index.js -L --verbose"
   },
   "author": "",

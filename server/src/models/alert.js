@@ -8,7 +8,6 @@ const alertSchema = new mongoose.Schema({
     required: true,
     maxlength: 255,
     minlength: 5,
-    unique: true,
   },
   frequency: {
     type: String,
