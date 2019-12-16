@@ -6,7 +6,8 @@ A web app to manage alerts for products prices on Ebay.com. Using Node.js, React
 
 ## Run and Setup
 - create a file named '.env' on the root folder with the information exemplified on the '.env.example' file
-- (optional) if you are using your e-mail for the EMAIL SENDER value and it is from Gmail, you must allow access to less secure apps [here](https://myaccount.google.com/lesssecureapps?pli=1)
+- for the EBAY_APP_ID value you must create an account [here](https://developer.ebay.com/) and retrieve your AppID
+- (optional) if you are using your e-mail for the EMAIL_SENDER value and it is from Gmail, you must allow access to less secure apps [here](https://myaccount.google.com/lesssecureapps?pli=1)
 - run docker-compose config
 - run docker-compose up --build
 
