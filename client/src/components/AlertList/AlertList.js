@@ -34,9 +34,12 @@ class AlertList extends Component {
     try {
       this.setState({ loading: true });
       
-      await request(`/alert/${item.id}`, 'DELETE')  
+      await request(`/alert/${item._id}`, 'DELETE')  
       
       message.success("Alert successfully deleted!");
+
+      this.getItems();
+      
     } catch (error) {
       message.error("An error occurred please try again later");
 

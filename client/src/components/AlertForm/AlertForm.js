@@ -44,7 +44,7 @@ class AlertForm extends Component {
       if (!id) return;
   
       const { _id, ...item } = await this.getItem(id);
-  
+      
       this.props.form.setFields({
         email: { value: item.email },
         searchPhrase: { value: item.searchPhrase }, 
@@ -77,7 +77,7 @@ class AlertForm extends Component {
       history.push('/');
 
     } catch (err) {
-      message.error("An error occurred please try again later");
+      message.error(err.message || "An error occurred please try again later");
     } finally {
       this.setState({ loadingSubmit: false });
     }
@@ -133,6 +133,7 @@ class AlertForm extends Component {
     
     const { 
       loading,
+      loadingSubmit,
       frequencies,
       emailRules,
       searchPhraseRules,
@@ -144,6 +145,7 @@ class AlertForm extends Component {
         form={form} 
         frequencies={frequencies} 
         loading={loading}
+        loadingSubmit={loadingSubmit}
         onSubmit={e => this.handleSubmit(e)}
         onReset={e => this.handleReset(e)} 
         onGoBack={() => history.goBack()}

@@ -13,12 +13,11 @@ export default ({
     searchPhraseRules = [],
     frequencyRules = [],
 }) => {
-    return loading 
-      ? <Spin className="alert-form__loader"></Spin>
-      : <Form 
-          className="alert-form" 
-          onSubmit={e => onSubmit(e)}
-        >
+    return (
+      <Form 
+        className="alert-form" 
+        onSubmit={e => onSubmit(e)}
+      >
         <Button onClick={e => onGoBack(e)}>
           <Icon type="left"></Icon>
         </Button>
@@ -67,5 +66,6 @@ export default ({
           >
             Clear
           </Button>
-        </Form>
+      </Form>
+    );
 }
