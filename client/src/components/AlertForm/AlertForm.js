@@ -1,18 +1,8 @@
-import './AlertForm.scss';
-
 import React, { Component } from 'react';
 import request from '../../services/request';
 import { emailRegex } from '../../utils'; 
-import { 
-  message, 
-  Form, 
-  Input, 
-  Button, 
-  Select,
-  Spin, 
-  Icon
-} from 'antd';
-
+import { message, Form as AntdForm } from 'antd';
+import Form from './components/Form';
 
 class AlertForm extends Component {
 
@@ -20,15 +10,37 @@ class AlertForm extends Component {
     data: {},
     loading: false,
     loadingSubmit: false,
-    frequencies: [] 
+    frequencies: [],
+    emailRules: [{ 
+      required: true,
+      message: 'please input your email' 
+    }, {
+      pattern: emailRegex,
+      message: 'please input a valid email' 
+    }],
+    searchPhraseRules: [{ 
+      required: true,
+      message: 'please input a search phrase' 
+    }, {
+      max: 255,
+      message: 'please input a smaller search phrase'
+    }],
+    frequencyRules: [{ 
+      required: true, 
+      message: 'please select a frequency' 
+    }]
   }
 
   async componentDidMount() {
-    this.setState({
-      frequencies: await this.getFrequencies()
-    }, async () => {
+    try {
+      this.setState({ loading: true });
+
+      this.setState({
+        frequencies: await this.getFrequencies()
+      })
+
       const { id } = this.props.match.params;
-  
+    
       if (!id) return;
   
       const { _id, ...item } = await this.getItem(id);
@@ -38,160 +50,109 @@ class AlertForm extends Component {
         searchPhrase: { value: item.searchPhrase }, 
         frequency: { value: item.frequency },
       });
-    })
-  }
-
-  async getFrequencies () {
-    try {
-      this.setState({ loading: true });
-      
-      const { data } = await request('/frequency', 'GET')
-      
-      return data;
 
     } catch (error) {
       message.error("An error occurred please try again later");
-
     } finally {
       this.setState({ loading: false });
+    }
+  }
+
+  async handleSubmit (e) {
+    try {
+      e.preventDefault();
+
+      const { match, history } = this.props;
+      
+      const values = await this.handleValidate();
+
+      if (!values) return;
+      
+      const { id } = match.params;
+
+      await this.saveItem(values, id);
+
+      message.success(`Alert successfully ${id ? 'updated' : 'created'}!`);
+
+      history.push('/');
+
+    } catch (err) {
+      message.error("An error occurred please try again later");
+    } finally {
+      this.setState({ loadingSubmit: false });
+    }
+  };
+
+  async getFrequencies () {
+    try {
+      const { data } = await request('/frequency', 'GET');
+      return data;
+    } catch (error) {
+      throw error;
     }
   }
 
   async getItem (id) {
     try {
-      this.setState({ loading: true });
-      
-      const { data } = await request(`/alert/${id}`, 'GET')
-      
+      const { data } = await request(`/alert/${id}`, 'GET');
       return data;
-
     } catch (error) {
-      message.error("An error occurred please try again later");
-
-    } finally {
-      this.setState({ loading: false });
+      throw error;
     }
   }
 
-  async saveItem (item) {
+  async saveItem (item, id = null) {
     try {
-      this.setState({ loadingSubmit: true });
-
-      const { match, history } = this.props;
-      
-      const { id } = match.params;
-
       await request(`/alert/${id ? id : ''}`, id ? 'PATCH' : 'POST', item);
-      
-      message.success(`Alert successfully ${id ? 'updated' : 'created'}!`);
-
-      history.push('/');
-
     } catch (error) {
-      message.error("An error occurred please try again later");
-
-    } finally {
-      this.setState({ loadingSubmit: false });
-    }
+      throw error;
+    } 
   }
 
-  handleSubmit (e) {
-    e.preventDefault();
-    
-    this.props.form.validateFieldsAndScroll((err, values) => 
-      !err && this.saveItem(values)
-    );
-  };
+  handleValidate = () => {
+    return new Promise(resolve => {
+      this.props.form.validateFieldsAndScroll((err, values) => {
+        resolve(err ? false : values);
+      });
+    });
+  }
 
   handleReset = () => {
     this.props.form.resetFields();
-  };
+  }
 
   hasErrors (fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
   
   render () {
-    const { form: { getFieldDecorator }, history } = this.props;
-    const { loading, frequencies } = this.state;
+    const { 
+      form, 
+      history 
+    } = this.props;
     
-    return loading 
-      ? <Spin className="alert-form__loader"></Spin>
-      : <Form 
-          className="alert-form" 
-          onSubmit={e => this.handleSubmit(e)}
-        >
-          <Button onClick={() => history.goBack()}>
-            <Icon type="left"></Icon>
-          </Button>
-          <Form.Item className="alert-form__item">
-            {getFieldDecorator('email', { 
-              rules: [{ 
-                required: true,
-                message: 'please input your email' 
-              }, {
-                pattern: emailRegex,
-                message: 'please input a valid email' 
-              }]
-            })(
-              <Input 
-                size="large" 
-                placeholder="Email" 
-              />,
-            )}
-          </Form.Item>
-          <Form.Item className="alert-form__item">
-            {getFieldDecorator('searchPhrase', { 
-              rules: [{ 
-                required: true,
-                message: 'please input a search phrase' 
-              }, {
-                max: 255,
-                message: 'please input a smaller search phrase'
-              }]
-            })(
-              <Input 
-                size="large" 
-                placeholder="Search Phrase"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item className="alert-form__item">
-            {getFieldDecorator('frequency', { 
-              rules: [{ 
-                required: true, 
-                message: 'please select a frequency' 
-              }]
-            })(
-              <Select 
-                size="large"
-                placeholder="Frequency"
-              >
-                {frequencies.map(o => 
-                  <Select.Option key={o.value} value={o.value}>
-                    {o.label}
-                  </Select.Option>
-                )}
-              </Select>,
-            )}
-          </Form.Item>
-          <Button 
-            className="alert-form__button" 
-            type="primary" 
-            size="large"
-            htmlType="submit"
-          >
-            Save
-          </Button>
-          <Button 
-            onClick={this.handleReset}
-            size="large"
-            className="alert-form__button" 
-          >
-            Clear
-          </Button>
-        </Form>
+    const { 
+      loading,
+      frequencies,
+      emailRules,
+      searchPhraseRules,
+      frequencyRules 
+    } = this.state;
+    
+    return (
+      <Form
+        form={form} 
+        frequencies={frequencies} 
+        loading={loading}
+        onSubmit={e => this.handleSubmit(e)}
+        onReset={e => this.handleReset(e)} 
+        onGoBack={() => history.goBack()}
+        emailRules={emailRules}
+        searchPhraseRules={searchPhraseRules}
+        frequencyRules={frequencyRules}
+      ></Form>
+    ); 
   }
 }
 
-export default Form.create({ name: 'alert_form' })(AlertForm);
+export default AntdForm.create({ name: 'alert_form' })(AlertForm);

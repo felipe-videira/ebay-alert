@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import AlertForm from './AlertForm';
+import Form from './components/Form.react';
+import renderer from 'react-test-renderer';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<AlertForm />, div);
-  ReactDOM.unmountComponentAtNode(div);
+it('renders correctly', () => {
+  const form = renderer.create(<Form />).toJSON();
+
+  expect(form).toMatchSnapshot();
 });
