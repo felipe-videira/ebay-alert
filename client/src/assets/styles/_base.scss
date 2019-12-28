@@ -1,0 +1,43 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/variables';
+
+%responsive-btn {
+    background-color: $primary-color;
+    color: $white;
+
+    p { 
+        margin: 0;
+
+        @include breakpoint(mobile) {
+            display: none;
+        }
+    }
+
+    i { 
+        @include breakpoint(not-mobile) {
+            display: none;
+        }
+    }
+}
+
+%responsive-btn-circle {
+    @extend %responsive-btn;
+
+    @include breakpoint(mobile) {
+        height: 60px;
+        width: 60px;
+        font-size: 26px;
+        border-radius: 30px;
+        line-height: 1;
+    }
+}
+
+%responsive-btn-flat {
+    @extend %responsive-btn;
+
+    @include breakpoint(mobile) {
+        font-size: 26px;
+        line-height: 1;
+        border: none;
+    }
+}

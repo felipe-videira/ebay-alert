@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import request from '../../services/request';
-import List from './components/List';
 import { message } from 'antd';
+import List from './components/List';
+import request from 'services/request';
+import { isMobile } from 'utils'
+
 
 class AlertList extends Component {
 
   state = {
     loading: false,
     data: [],
+    mobile: false
   }
 
   componentDidMount () {
+    this.setState({
+      mobile: isMobile()
+    })
+
     this.getItems()
   }
 
@@ -57,7 +64,7 @@ class AlertList extends Component {
   }
 
   render () {
-    const { data, loading } = this.state; 
+    const { data, loading, mobile } = this.state; 
 
     return (
       <List
@@ -66,6 +73,13 @@ class AlertList extends Component {
         onCreate={() => this.createItem()} 
         onEdit={item => this.editItem(item)}
         onDelete={item => this.deleteItem(item)} 
+        titleKey="searchPhrase"
+        descriptionKey="email"
+        infoKey="frequency"
+        titleTemplate='"{value}"'
+        descriptionTemplate={mobile ? '{value}' : 'send to {value}'}
+        infoTemplate={mobile ? '{value} min' : 'every {value} minutes'}
+        editOnClick={mobile}
       ></List>
     );
   }

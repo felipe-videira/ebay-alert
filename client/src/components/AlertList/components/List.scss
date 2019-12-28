@@ -1,26 +1,45 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/variables';
+@import 'assets/styles/base';
+
 .alert-list {
     min-height: 100%;
-    background-color: #fff;
+    background-color: $white;
     padding: 5%;
 
-    &__create-button {
-        position: fixed;
-        right: 5%;
-        bottom: 10%;
-        width: 60px;
-        height: 60px;
-        line-height: 1;
-        font-size: 26px;
+    &__list {
+        padding: 5%;
     }
 
-    &__load-more-button {
+    &__create-btn {
+        @extend %responsive-btn-circle;
+
+        @include breakpoint(not-mobile) {
+            width: 10%;
+            align-self: flex-end;
+        }
+
+        @include breakpoint(mobile) {
+            position: fixed;
+            right: 5%;
+            bottom: 10%;
+        }
+    }
+
+    &__action {
+        @include breakpoint(mobile) {
+            display: none;
+        }
+    }
+
+    &__load-more-btn {
         text-align: center;
         margin: 5% 40%;
         width: 20%;
     }
 
-    &__empty {
-        color: #5d5c5c;
+    &__empty-state {
+        color: $disabled-color;
         font-size: 16px;
         margin: 10% 0;
     }
