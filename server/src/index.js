@@ -7,7 +7,7 @@ const PORT = process.env.API_PORT;
 const app = express();
 
 require('./database');
-require('../initDb');
+require('../mock');
 
 app.use(express.json());
 app.use(cors());

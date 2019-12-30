@@ -1,8 +1,10 @@
 import './Form.scss';
 import React from 'react';
 import { Form, Input, Icon, Button, Select, Spin } from 'antd';
+import { withTranslation } from 'react-i18next';
 
-export default ({ 
+export default withTranslation()(({ 
+    t,
     form, 
     frequencies = [], 
     loading = false, 
@@ -21,27 +23,27 @@ export default ({
         <Button onClick={e => onGoBack(e)}>
           <Icon type="left"></Icon>
         </Button>
-          <Form.Item className="alert-form__item">
+          <Form.Item label="Email" className="alert-form__item">
             {form.getFieldDecorator('email', { rules: emailRules })(
               <Input 
                 size="large" 
-                placeholder="Email" 
+                placeholder="Type your email here" 
               />,
             )}
           </Form.Item>
-          <Form.Item className="alert-form__item">
+          <Form.Item label="Search Phrase" className="alert-form__item">
             {form.getFieldDecorator('searchPhrase', { rules: searchPhraseRules })(
               <Input 
                 size="large" 
-                placeholder="Search Phrase"
+                placeholder="Type the search phrase you want to be monitored"
               />,
             )}
           </Form.Item>
-          <Form.Item className="alert-form__item">
+          <Form.Item label="Frequency" className="alert-form__item">
             {form.getFieldDecorator('frequency', { rules: frequencyRules })(
               <Select 
                 size="large"
-                placeholder="Frequency"
+                placeholder="Select the frequency in which the alerts will be sent to you"
               >
                 {frequencies.map(o => 
                   <Select.Option key={o.value} value={o.value}>
@@ -68,4 +70,4 @@ export default ({
           </Button>
       </Form>
     );
-}
+})

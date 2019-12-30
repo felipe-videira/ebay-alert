@@ -1,0 +1,14 @@
+[
+    {
+        "lng": "pt",
+        "translation": {
+            "emailLabel": "E-mail"
+        }
+    },
+    {
+        "lng": "en",
+        "translation": {
+            "emailLabel": "E-mail"
+        }
+    }
+]

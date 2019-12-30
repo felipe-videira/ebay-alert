@@ -1,5 +1,9 @@
 FROM node:alpine
 
+ENV CHOKIDAR_USEPOLLING=true
+ENV SASS_PATH=node_modules:src
+ENV NODE_PATH=node_modules:src
+
 RUN mkdir -p /usr/app/ebay-alert-web
 WORKDIR /usr/app/ebay-alert-web
 

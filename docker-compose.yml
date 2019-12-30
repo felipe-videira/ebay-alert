@@ -52,9 +52,6 @@ services:
       - server
     environment:
       - REACT_APP_API_HOST=${REACT_APP_API_HOST}
-      - CHOKIDAR_USEPOLLING=true
-      - SASS_PATH=node_modules:src
-      - NODE_PATH=node_modules:src
 
 
 
