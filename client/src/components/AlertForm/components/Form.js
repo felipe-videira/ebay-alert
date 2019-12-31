@@ -1,10 +1,9 @@
 import './Form.scss';
 import React from 'react';
-import { Form, Input, Icon, Button, Select, Spin } from 'antd';
 import { withTranslation } from 'react-i18next';
+import { Form, Input, Icon, Button, Select, Spin } from 'antd';
 
-export default withTranslation()(({ 
-    t,
+export default ({ 
     form, 
     frequencies = [], 
     loading = false, 
@@ -20,7 +19,10 @@ export default withTranslation()(({
         className="alert-form" 
         onSubmit={e => onSubmit(e)}
       >
-        <Button onClick={e => onGoBack(e)}>
+        <Button 
+          onClick={e => onGoBack(e)} 
+          className="alert-form__go-back-btn" 
+        > 
           <Icon type="left"></Icon>
         </Button>
           <Form.Item label="Email" className="alert-form__item">
@@ -53,21 +55,20 @@ export default withTranslation()(({
               </Select>,
             )}
           </Form.Item>
-          <Button 
-            className="alert-form__button" 
-            type="primary" 
-            size="large"
-            htmlType="submit"
-          >
-            Save
-          </Button>
-          <Button 
-            onClick={onReset}
-            size="large"
-            className="alert-form__button" 
-          >
-            Clear
-          </Button>
+          <div className="alert-form__btn-area">
+            <Button 
+              className="alert-form__submit-btn" 
+              htmlType="submit"
+            >
+              Save
+            </Button>
+            <Button 
+              onClick={onReset}
+              className="alert-form__clear-btn" 
+            >
+              Clear
+            </Button>
+          </div>
       </Form>
     );
-})
+};

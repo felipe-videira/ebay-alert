@@ -12,7 +12,7 @@
     }
 
     &__create-btn {
-        @extend %responsive-btn-circle;
+        @extend %responsive-btn;
 
         @include breakpoint(not-mobile) {
             width: 10%;
@@ -20,6 +20,9 @@
         }
 
         @include breakpoint(mobile) {
+            @include circle-btn;
+            
+            font-size: 26px;
             position: fixed;
             right: 5%;
             bottom: 10%;

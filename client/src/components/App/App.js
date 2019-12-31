@@ -12,7 +12,7 @@ class App extends Component {
 
   render () {
     return (
-      <Layout>
+      <Layout className="app">
         <Header className="app__header">Ebay Alert</Header>
         <Content className="app__content">
           <BrowserRouter>
