@@ -1,0 +1,20 @@
+[
+    {
+        "lng": "pt",
+        "translation": {
+            "emailLabel": "E-mail"
+        },
+        "deleted": 0,
+        "createdAt":  "2020-01-04T22:28:24.111Z",
+        "lastModifiedAt":  "2020-01-04T22:28:24.111Z"
+    },
+    {
+        "lng": "en",
+        "translation": {
+            "emailLabel": "E-mail"
+        },
+        "deleted": 0,
+        "createdAt":  "2020-01-04T22:28:24.111Z",
+        "lastModifiedAt":  "2020-01-04T22:28:24.111Z"
+    }
+]

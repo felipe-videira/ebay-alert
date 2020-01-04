@@ -1,5 +1,7 @@
 FROM node:alpine
 
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+
 RUN mkdir -p /usr/app/ebay-alert-api
 WORKDIR /usr/app/ebay-alert-api
 

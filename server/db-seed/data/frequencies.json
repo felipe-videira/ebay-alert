@@ -1,0 +1,23 @@
+[
+    {
+        "value": "2",
+        "label": "2",
+        "deleted": 0,
+        "createdAt":  "2020-01-04T22:28:24.111Z",
+        "lastModifiedAt":  "2020-01-04T22:28:24.111Z"
+    },  
+    {
+        "value": "10",
+        "label": "10",
+        "deleted": 0,
+        "createdAt":  "2020-01-04T22:28:24.111Z",
+        "lastModifiedAt":  "2020-01-04T22:28:24.111Z"
+    },  
+    {
+        "value": "30",
+        "label": "30",
+        "deleted": 0,
+        "createdAt":  "2020-01-04T22:28:24.111Z",
+        "lastModifiedAt":  "2020-01-04T22:28:24.111Z"
+    }  
+]

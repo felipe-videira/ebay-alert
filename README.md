@@ -10,6 +10,7 @@ A web app to manage alerts for products prices on Ebay.com. Using Node.js, React
 - (optional) if you are using your e-mail for the EMAIL_SENDER value and it is from Gmail, you must allow access to less secure apps [here](https://myaccount.google.com/lesssecureapps?pli=1)
 - run docker-compose config
 - run docker-compose up --build
+- (optional) running without the database seed: docker-compose up --scale db_seed=0
 
 ## Main libraries used
   - [axios](https://www.npmjs.com/package/axios)
