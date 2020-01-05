@@ -1,8 +1,8 @@
 import './App.scss';
 
 import React, { Component } from 'react';
-import AlertForm from '../AlertForm';
-import AlertList from '../AlertList';
+import AlertForm from '../alertForm';
+import AlertList from '../alertList';
 import { Layout } from 'antd';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 

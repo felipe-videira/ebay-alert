@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import request from '../../services/request';
-import { emailRegex } from '../../utils'; 
-import { message, Form as AntdForm } from 'antd';
 import Form from './components/Form';
+import { emailRegex } from '../../utils'; 
+import request from '../../services/request';
+import React, { Component, Suspense } from 'react';
+import { message, Form as AntdForm, Spin } from 'antd';
 
 class AlertForm extends Component {
 
@@ -141,18 +141,20 @@ class AlertForm extends Component {
     } = this.state;
     
     return (
-      <Form
-        form={form} 
-        frequencies={frequencies} 
-        loading={loading}
-        loadingSubmit={loadingSubmit}
-        onSubmit={e => this.handleSubmit(e)}
-        onReset={e => this.handleReset(e)} 
-        onGoBack={() => history.goBack()}
-        emailRules={emailRules}
-        searchPhraseRules={searchPhraseRules}
-        frequencyRules={frequencyRules}
-      ></Form>
+      <Suspense fallback={<Spin/>}>
+        <Form
+          form={form} 
+          frequencies={frequencies} 
+          loading={loading}
+          loadingSubmit={loadingSubmit}
+          onSubmit={e => this.handleSubmit(e)}
+          onReset={e => this.handleReset(e)} 
+          onGoBack={() => history.goBack()}
+          emailRules={emailRules}
+          searchPhraseRules={searchPhraseRules}
+          frequencyRules={frequencyRules}
+        ></Form>
+      </Suspense>
     ); 
   }
 }

@@ -14,6 +14,9 @@ i18n
     interpolation: {
       escapeValue: false 
     },
+    // react: {
+    //   useSuspense: false
+    // },
     backend: {
       crossDomain: true,
       loadPath: `${process.env.REACT_APP_API_HOST}/locale/{{lng}}`,
