@@ -2,6 +2,7 @@
     {
         "lng": "pt",
         "translation": {
+            "title": "Ebay Alert",
             "emailLabel": "E-mail"
         },
         "deleted": 0,
@@ -11,6 +12,7 @@
     {
         "lng": "en",
         "translation": {
+            "title": "Ebay Alert",
             "emailLabel": "E-mail"
         },
         "deleted": 0,

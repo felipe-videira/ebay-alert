@@ -1,8 +1,9 @@
+import { emailRegex } from 'utils'; 
 import Form from './components/Form';
-import { emailRegex } from '../../utils'; 
-import request from '../../services/request';
+import request from 'services/request';
+import Loader from 'components/common/loader';
+import { message, Form as AntdForm } from 'antd';
 import React, { Component, Suspense } from 'react';
-import { message, Form as AntdForm, Spin } from 'antd';
 
 class AlertForm extends Component {
 
@@ -141,7 +142,7 @@ class AlertForm extends Component {
     } = this.state;
     
     return (
-      <Suspense fallback={<Spin/>}>
+      <Suspense fallback={<Loader/>}>
         <Form
           form={form} 
           frequencies={frequencies} 

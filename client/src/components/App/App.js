@@ -1,9 +1,10 @@
 import './App.scss';
 
-import React, { Component } from 'react';
+import { Layout } from 'antd';
 import AlertForm from '../alertForm';
 import AlertList from '../alertList';
-import { Layout } from 'antd';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 const { Header, Content, Footer } = Layout
@@ -13,7 +14,9 @@ class App extends Component {
   render () {
     return (
       <Layout className="app">
-        <Header className="app__header">Ebay Alert</Header>
+        <Header className="app__header">
+          {this.props.t('title')}
+        </Header>
         <Content className="app__content">
           <BrowserRouter>
             <Switch>
@@ -29,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withTranslation()(App);

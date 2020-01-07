@@ -1,12 +1,18 @@
 import './index.css'
 import 'antd/dist/antd.css';
 
-import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
+import App from 'components/app';
+import Loader from 'components/common/loader';
+import React, { Suspense } from 'react';
 import * as serviceWorker from './serviceWorker';
 import './i18n';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <Suspense fallback={<Loader />}>
+        <App />
+    </Suspense>, 
+    document.getElementById('root')
+);
 
 serviceWorker.register();
