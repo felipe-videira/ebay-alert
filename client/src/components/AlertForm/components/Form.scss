@@ -22,7 +22,7 @@
 
     &__go-back-btn {
         @include breakpoint(mobile) {
-            @include flat-btn;
+            @include flat;
 
             font-size: 21px;
             position: fixed;
@@ -51,7 +51,7 @@
         color: $white;
         
         @include breakpoint(mobile) {
-            @include block-btn;
+            @include block;
 
             font-size: 21px;
             height: 40px;
@@ -61,8 +61,8 @@
 
     &__clear-btn {
         @include breakpoint(mobile) {
-            @include block-btn;
-            @include flat-btn;
+            @include block;
+            @include flat;
 
             color: $disabled-color;
         }

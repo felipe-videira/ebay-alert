@@ -1,4 +1,4 @@
-import './index.css'
+import './index.scss'
 import 'antd/dist/antd.css';
 
 import ReactDOM from 'react-dom';

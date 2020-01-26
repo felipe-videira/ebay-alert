@@ -20,8 +20,6 @@
         }
 
         @include breakpoint(mobile) {
-            @include circle-btn;
-            
             font-size: 26px;
             position: fixed;
             right: 5%;

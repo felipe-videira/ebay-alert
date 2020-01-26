@@ -1,0 +1,14 @@
+@keyframes click-wave {
+    50% {
+      transform: scale(1.5, 1.5);
+      opacity: 0;
+    }
+    99% {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(0, 0);
+      opacity: 1;
+    }
+}

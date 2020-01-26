@@ -63,6 +63,8 @@ class AlertForm extends Component {
     try {
       e.preventDefault();
 
+      this.setState({ loadingSubmit: true });
+
       const { match, history } = this.props;
       
       const values = await this.handleValidate();

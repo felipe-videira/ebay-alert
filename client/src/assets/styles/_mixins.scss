@@ -1,3 +1,14 @@
+@mixin flat {
+    line-height: 1;
+    border: none;
+    background: transparent;
+}
+
+@mixin block {
+    margin: 0;
+    width: 100%;
+}
+
 @mixin breakpoint($point) {
     @if $point == desktop {
         @media all and (min-width: 1264px) {
@@ -29,40 +40,4 @@
             @content;
         }
     }
-}
-
-@mixin responsive-btn {
-    background-color: $primary-color;
-    color: $white;
-
-    p { 
-        margin: 0;
-
-        @include breakpoint(mobile) {
-            display: none;
-        }
-    }
-
-    i { 
-        @include breakpoint(not-mobile) {
-            display: none;
-        }
-    }
-}
-
-@mixin circle-btn {
-    height: 60px;
-    width: 60px;
-    border-radius: 30px;
-    line-height: 1;
-}
-
-@mixin flat-btn {
-    line-height: 1;
-    border: none;
-}
-
-@mixin block-btn {
-    margin: 0;
-    width: 100%;
 }
