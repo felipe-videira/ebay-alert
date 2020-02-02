@@ -4,25 +4,23 @@ import Select from 'components/common/select';
 import { withTranslation } from 'react-i18next';
 import { Form, Input, Icon, Button } from 'antd';
 
-export default withTranslation()(({
+function FormComponent ({
   t, 
   form, 
+  params,
   loading,
   loadingSubmit,
   frequencies = [],
   onSubmit = (e) => {}, 
   onReset = (e) => {}, 
   onGoBack = (e) => {}, 
-  emailRules = [],
-  searchPhraseRules = [],
-  frequencyRules = [],
-}) => {
+}) {
+  
+  if (!params) return null;
 
   const formDisabled = loadingSubmit || loading;
 
-  const onFrequencyChange = frequency => {
-    form.setFieldsValue({ frequency  })
-  }
+  const onFrequencyChange = frequency => form.setFieldsValue({ frequency  });
 
   return (
     <Form 
@@ -36,31 +34,47 @@ export default withTranslation()(({
       > 
         <Icon type="left"></Icon>
       </Button>
-      <Form.Item label={t('emailLabel')} className="alert-form__item">
-        {form.getFieldDecorator('email', { rules: emailRules })(
+
+      <Form.Item 
+        label={params.email.label} 
+        className="alert-form__item"
+      >
+        {form.getFieldDecorator('email', { 
+          rules: params.email.rules 
+        })(
           <Input 
             size="large"
             allowClear
             disabled={formDisabled} 
-            placeholder="Type your email here" 
+            placeholder={params.email.placeholder}
           />,
         )}
       </Form.Item>
-      <Form.Item label="Search Phrase" className="alert-form__item">
-        {form.getFieldDecorator('searchPhrase', { rules: searchPhraseRules })(
+      <Form.Item 
+        label={params.searchPhrase.label} 
+        className="alert-form__item"
+      >
+        {form.getFieldDecorator('searchPhrase', { 
+          rules: params.searchPhrase.rules 
+        })(
           <Input 
             disabled={formDisabled}
             size="large" 
             allowClear
-            placeholder="Type the search phrase you want to be monitored"
+            placeholder={params.searchPhrase.placeholder} 
           />,
         )}
       </Form.Item>
-      <Form.Item label="Frequency (minutes)" className="alert-form__item">
-        {form.getFieldDecorator('frequency', { rules: frequencyRules })(
+      <Form.Item
+        label={params.frequency.label} 
+        className="alert-form__item"
+      >
+        {form.getFieldDecorator('frequency', { 
+          rules: params.frequency.rules 
+        })(
           <Select
-            placeholder="Select the frequency in which your alerts will be sent"
-            mobileListTitle="Select the frequency"
+            placeholder={params.frequency.placeholder}
+            mobileListTitle={params.frequency.mobileListTitle}
             items={frequencies}
             disabled={formDisabled}
             value={form.getFieldValue('frequency')}
@@ -68,6 +82,7 @@ export default withTranslation()(({
           />
         )}
       </Form.Item>
+
       <div className="alert-form__btn-area">
         <Button 
           className="alert-form__submit-btn" 
@@ -75,16 +90,18 @@ export default withTranslation()(({
           loading={loadingSubmit}
           disabled={formDisabled}
         >
-          Save
+          {t('submitButton', { context: 'alertForm' })}
         </Button>
         <Button 
           onClick={onReset}
           disabled={formDisabled}
           className="alert-form__clear-btn" 
         >
-          Clear
+          {t('clearButton', { context: 'alertForm' })}
         </Button>
       </div>
     </Form>
   );
-});
+};
+
+export default withTranslation()(FormComponent);

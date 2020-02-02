@@ -1,25 +1,22 @@
 import './List.scss';
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 import { Empty, Button, Layout, List, Skeleton } from 'antd';
 
-export default ({ 
+function ListComponent ({
+    t, 
     data = [], 
     loading = false, 
-    editOnClick = false,
-    titleTemplate = '{value}',
-    descriptionTemplate = '{value}',
-    infoTemplate = '{value}',
+    mobile = false,
     titleKey = 'title',
     descriptionKey = 'description',
     infoKey = 'info',
     onCreate = () => {}, 
     onEdit = (item) => {}, 
     onDelete = (item) => {}, 
-}) => {
+}) {
 
-    const getText = (item, key, template) => {
-      return item[key] && template.replace('{value}', item[key])
-    }
+    const context = mobile ? 'mobile' : undefined;
 
     return (
       <Layout className="alert-list">
@@ -29,61 +26,64 @@ export default ({
             className="alert-list__create-btn" 
             onClick={() => onCreate()} 
           >
-            <p>New Alert</p>
+          <p>{t('createButton', { context: 'alertList' })} </p>
           </Button>}
-        {!data.length 
-          ? <Empty 
-              className="alert-list__empty"
-              image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description="You have no alerts"
+        {!data.length ? (
+          <Empty 
+            className="alert-list__empty"
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={t('alertListEmpty')}
+          >
+            <Button 
+              type="primary"
+              size="large"
+              onClick={() => onCreate()} 
             >
-              <Button 
-                type="primary"
-                size="large"
-                onClick={() => onCreate()} 
+              {t('createButton', { context: 'alertList_empty',  })}
+            </Button>
+          </Empty>
+        ) : (
+          <List
+            className="alert-list__list"
+            loading={loading}
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={item => (
+              <List.Item
+                onClick={() => mobile && onEdit(item)} 
+                actions={[
+                  <Button 
+                    className="alert-list__action"
+                    shape="circle" 
+                    icon="edit"
+                    onClick={() => onEdit(item)} 
+                  />,
+                  <Button 
+                    shape="circle" 
+                    icon="delete" 
+                    className="alert-list__action"
+                    onClick={() => onDelete(item)} 
+                  /> 
+                ]}
               >
-                Create one
-              </Button>
-            </Empty>
-          : <List
-              className="alert-list__list"
-              loading={loading}
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={item => (
-                <List.Item
-                  onClick={() => editOnClick && onEdit(item)} 
-                  actions={[
-                    <Button 
-                      className="alert-list__action"
-                      shape="circle" 
-                      icon="edit"
-                      onClick={() => onEdit(item)} 
-                    />,
-                    <Button 
-                      shape="circle" 
-                      icon="delete" 
-                      className="alert-list__action"
-                      onClick={() => onDelete(item)} 
-                    /> 
-                  ]}
+                <Skeleton 
+                  title={false} 
+                  loading={item.loading} 
+                  active
                 >
-                  <Skeleton 
-                    title={false} 
-                    loading={item.loading} 
-                    active
-                  >
-                    <List.Item.Meta
-                      title={getText(item, titleKey, titleTemplate)}
-                      description={getText(item, descriptionKey, descriptionTemplate)}
-                    />
-                    <div>{getText(item, infoKey, infoTemplate)}</div>
-                  </Skeleton>
-                </List.Item>
-              )}
-          />}
+                  <List.Item.Meta
+                    title={t('alertListTitle', { context, value: item[titleKey] })}
+                    description={t('alertListDescription', { context, value: item[descriptionKey] })}
+                  />
+                  <div>{t('alertListInfo', { context, value: item[infoKey] })}</div>
+                </Skeleton>
+              </List.Item>
+            )}
+        />)}
       </Layout>
     );
-}
+};
+
+export default withTranslation()(ListComponent);
 
  

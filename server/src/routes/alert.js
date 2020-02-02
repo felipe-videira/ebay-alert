@@ -1,7 +1,28 @@
 
+const db = require('../database')();
 const Alert = require('../models/alert');
 const router = require('express').Router();
 const getAlert = require('../middlewares/getAlert');
+
+router.get('/params', async (req, res) => {
+    try {
+        const { fields } = await db.collection('formParams')
+            .findOne({ 
+                form: 'alertForm', deleted: 0 
+            }, { 
+                fields: { fields: 1 }
+            });
+
+        if (!fields) {
+            res.status(404).json({});
+            return;
+        }
+
+        res.json(fields);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+})
 
 router.get('/', async (req, res) => {
     try {
@@ -32,7 +53,10 @@ router.post('/', async (req, res) => {
 
         const { _id } = await alert.save();
 
-        res.status(201).json(_id);
+        res.status(201).json({ 
+            message: 'Alert successfully created!', 
+            data: _id 
+        });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -51,7 +75,10 @@ router.patch('/:id', getAlert, async(req, res) => {
 
         const updatedAlert = await res.alert.save();
 
-        res.json(updatedAlert._id);
+        res.json({
+            message: 'Alert successfully updated!', 
+            data: updatedAlert._id
+        });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

@@ -1,0 +1,49 @@
+[
+    {
+        "deleted": 0,
+        "createdAt": "2020-02-02T12:48:00.000Z",
+        "lastModifiedAt": "2020-02-02T12:48:00.000Z",
+        "form": "alertForm",
+        "fields": {
+            "email": {
+                "label": "E-mail",
+                "placeholder": "Type your email here",
+                "rules": [
+                    {
+                        "required": true,
+                        "message": "please input your email"
+                    },
+                    {
+                        "pattern": "^([\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4})?$",
+                        "message": "please input a valid email"
+                    }
+                ]
+            },
+            "searchPhrase": {
+                "label": "Search Phrase",
+                "placeholder": "Type the search phrase you want to be monitored",
+                "rules": [
+                    {
+                        "required": true,
+                        "message": "please input a search phrase"
+                    },
+                    {
+                        "max": 255,
+                        "message": "please input a smaller search phrase"
+                    }
+                ]
+            },
+            "frequency": {
+                "label": "Frequency (minutes)",
+                "placeholder": "Select the frequency in which your alerts will be sent",
+                "mobileListTitle": "Select the frequency",
+                "rules": [
+                    {
+                        "required": true,
+                        "message": "please select a frequency"
+                    }
+                ]
+            }
+        }
+    }
+]

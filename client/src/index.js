@@ -2,7 +2,7 @@ import './index.scss'
 import 'antd/dist/antd.css';
 
 import ReactDOM from 'react-dom';
-import App from 'components/app';
+import App from 'components/App';
 import Loader from 'components/common/loader';
 import React, { Suspense } from 'react';
 import * as serviceWorker from './serviceWorker';

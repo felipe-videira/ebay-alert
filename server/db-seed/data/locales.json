@@ -3,7 +3,19 @@
         "lng": "pt",
         "translation": {
             "title": "Ebay Alert",
-            "emailLabel": "E-mail"
+            "emailLabel": "E-mail",
+            "alertListTitle": "{{value}}",
+            "alertListTitle_mobile": "{{value}}",
+            "alertListDescription": "mande para {{value}}",
+            "alertListDescription_mobile": "{{value}}",
+            "alertListInfo": "a cada {{value}} minutos",
+            "alertListInfo_mobile": "{{value}} min",
+            "submitButton": "Salvar",
+            "clearButton": "Limpar",
+            "createButton": "Novo",
+            "createButton_alertList": "Novo Alerta",
+            "createButton_alertList_empty": "Criar um",
+            "alertListEmpty": "Você não possui nenhum alerta"
         },
         "deleted": 0,
         "createdAt":  "2020-01-04T22:28:24.111Z",
@@ -13,7 +25,19 @@
         "lng": "en",
         "translation": {
             "title": "Ebay Alert",
-            "emailLabel": "E-mail"
+            "emailLabel": "E-mail",
+            "alertListTitle": "{{value}}",
+            "alertListTitle_mobile": "{{value}}",
+            "alertListDescription": "send to {{value}}",
+            "alertListDescription_mobile": "{{value}}",
+            "alertListInfo": "every {{value}} minutes",
+            "alertListInfo_mobile": "{{value}} min",
+            "submitButton": "Save",
+            "clearButton": "Clear",
+            "createButton": "New",
+            "createButton_alertList": "New Alert",
+            "createButton_alertList_empty": "Create One",
+            "alertListEmpty": "You have no alerts"
         },
         "deleted": 0,
         "createdAt":  "2020-01-04T22:28:24.111Z",

@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { message } from 'antd';
+import { isMobile } from 'utils';
 import List from './components/List';
 import request from 'services/request';
-import { isMobile } from 'utils'
+import Loader from 'components/common/loader';
+import { message as displayMessage } from 'antd';
+import React, { Component, Suspense } from 'react';
 
 
 class AlertList extends Component {
@@ -14,9 +15,7 @@ class AlertList extends Component {
   }
 
   componentDidMount () {
-    this.setState({
-      mobile: isMobile()
-    })
+    this.setState({ mobile: isMobile() })
 
     this.getItems()
   }
@@ -25,12 +24,9 @@ class AlertList extends Component {
     try {
       this.setState({ loading: true });
       
-      const { data } = await request('/alert', 'GET')
+      const data = await request('/alert', 'GET')
       
       this.setState({ data });
-
-    } catch (error) {
-      message.error("An error occurred please try again later");
 
     } finally {
       this.setState({ loading: false });
@@ -41,15 +37,14 @@ class AlertList extends Component {
     try {
       this.setState({ loading: true });
       
-      await request(`/alert/${item._id}`, 'DELETE')  
-      
-      message.success("Alert successfully deleted!");
+      const { message } = await request(`/alert/${item._id}`, 'DELETE')  
 
-      this.getItems();
-      
-    } catch (error) {
-      message.error("An error occurred please try again later");
+      this.setState({ 
+        data: this.state.data.filter(o => o._id !== item._id)
+      });
 
+      displayMessage.success(message);
+      
     } finally {
       this.setState({ loading: false });
     }
@@ -67,20 +62,19 @@ class AlertList extends Component {
     const { data, loading, mobile } = this.state; 
 
     return (
-      <List
-        data={data} 
-        loading={loading} 
-        onCreate={() => this.createItem()} 
-        onEdit={item => this.editItem(item)}
-        onDelete={item => this.deleteItem(item)} 
-        titleKey="searchPhrase"
-        descriptionKey="email"
-        infoKey="frequency"
-        titleTemplate='"{value}"'
-        descriptionTemplate={mobile ? '{value}' : 'send to {value}'}
-        infoTemplate={mobile ? '{value} min' : 'every {value} minutes'}
-        editOnClick={mobile}
-      ></List>
+      <Suspense fallback={<Loader/>}>
+        <List
+          data={data} 
+          loading={loading} 
+          onCreate={() => this.createItem()} 
+          onEdit={item => this.editItem(item)}
+          onDelete={item => this.deleteItem(item)} 
+          titleKey="searchPhrase"
+          descriptionKey="email"
+          infoKey="frequency"
+          mobile={mobile}
+        ></List>
+      </Suspense>
     );
   }
 }
