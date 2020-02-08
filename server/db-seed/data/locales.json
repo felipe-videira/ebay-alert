@@ -15,7 +15,22 @@
             "createButton": "Novo",
             "createButton_alertList": "Novo Alerta",
             "createButton_alertList_empty": "Criar um",
-            "alertListEmpty": "Você não possui nenhum alerta"
+            "alertListEmpty": "Você não possui nenhum alerta",
+            "alertListLoadMore": "Carregar mais",
+            "alertFormParam": {
+                "emailLabel": "E-mail",
+                "emailPlaceholder": "Digite seu e-mail",
+                "emailRequired": "por favor insira seu e-mail",
+                "emailInvalid": "por favor insira um e-mail valido",
+                "searchPhraseLabel": "Frase de busca",
+                "searchPhrasePlaceholder": "Digite a frase de busca a ser monitorada",
+                "searchPhraseRequired": "por favor insira uma frase de busca",
+                "searchPhraseInvalid": "por favor insira uma frase de busca menor",
+                "frequencyLabel": "Frequência (minutos)",
+                "frequencyPlaceholder": "Selecione a frequência em que os alertas serão enviados",
+                "frequencyRequired": "por favor selecione uma frequência",
+                "frequencyMobileLabel": "Selecione uma frequência"
+            }
         },
         "deleted": 0,
         "createdAt":  "2020-01-04T22:28:24.111Z",
@@ -37,10 +52,47 @@
             "createButton": "New",
             "createButton_alertList": "New Alert",
             "createButton_alertList_empty": "Create One",
-            "alertListEmpty": "You have no alerts"
+            "alertListEmpty": "You have no alerts",
+            "alertListLoadMore": "Load more",
+            "alertFormParam": {
+                "emailLabel": "E-mail",
+                "emailPlaceholder": "Type your email here",
+                "emailRequired": "please input your email",
+                "emailInvalid": "please input a valid email",
+                "searchPhraseLabel": "Search Phrase",
+                "searchPhrasePlaceholder": "Type the search phrase you want to be monitored",
+                "searchPhraseRequired": "please input a search phrase",
+                "searchPhraseInvalid": "please input a smaller search phrase",
+                "frequencyLabel": "Frequency (minutes)",
+                "frequencyPlaceholder": "Select the frequency in which your alerts will be sent",
+                "frequencyRequired": "please select a frequency",
+                "frequencyMobileLabel": "Select the frequency"
+            }
         },
         "deleted": 0,
         "createdAt":  "2020-01-04T22:28:24.111Z",
         "lastModifiedAt":  "2020-01-04T22:28:24.111Z"
+    },
+    {
+        "lng": "pt-client",
+        "translation": {
+            "alert_post": "Alerta criado com sucesso!", 
+            "alert_patch": "Alerta atualizado com sucesso!",
+            "alert_delete": "Alerta excluído com sucesso."
+        },
+        "deleted": 0,
+        "createdAt":  "2020-02-08T11:00:00.000Z",
+        "lastModifiedAt":  "2020-02-08T11:00:00.000Z"
+    },
+    {
+        "lng": "en-client",
+        "translation": {
+            "alert_post": "Alert successfully created!", 
+            "alert_patch": "Alert successfully updated!",
+            "alert_delete": "Alert successfully deleted."
+        },
+        "deleted": 0,
+        "createdAt":  "2020-02-08T11:00:00.000Z",
+        "lastModifiedAt":  "2020-02-08T11:00:00.000Z"
     }
 ]

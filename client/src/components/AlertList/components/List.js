@@ -20,15 +20,15 @@ function ListComponent ({
 
     const context = mobile ? 'mobile' : undefined;
 
-    // const loadMoreButton = hasMoreToLoad && !loading ? (
-    //   <div className="alert-list__load-btn-container">
-    //     <Button onClick={onLoadMore}>
-    //       {t('alertListLoadMore')}
-    //     </Button>
-    //   </div>
-    // ) : (
-    //   null
-    // );
+    const loadMoreButton = hasMoreToLoad && !loading ? (
+      <div className="alert-list__load-btn-container">
+        <Button onClick={onLoadMore}>
+          {t('alertListLoadMore')}
+        </Button>
+      </div>
+    ) : (
+      null
+    );
 
     return (
       <Layout className="alert-list">
@@ -60,7 +60,7 @@ function ListComponent ({
             loading={loading}
             itemLayout="horizontal"
             dataSource={data}
-            // loadMore={loadMoreButton}
+            loadMore={loadMoreButton}
             renderItem={item => (
               <List.Item
                 onClick={() => mobile && onEdit(item)} 

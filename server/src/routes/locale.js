@@ -1,15 +1,9 @@
+const getTranslation = require('../services/getTranslation')
 const router = require('express').Router();
-const db = require('../database')();
 
 router.get('/:lng', async (req, res) => {
     try {
-        const { translation } = await db.collection('locales')
-            .findOne({ 
-                lng: req.params.lng, 
-                deleted: 0 
-            }, {
-                translation: 1
-            });
+        const translation = await getTranslation(req.params.lng.split('-')[0]);
 
         if (!translation) {
             res.status(404).json({});

@@ -6,41 +6,41 @@
         "form": "alertForm",
         "fields": {
             "email": {
-                "label": "E-mail",
-                "placeholder": "Type your email here",
+                "label": "emailLabel",
+                "placeholder": "emailPlaceholder",
                 "rules": [
                     {
                         "required": true,
-                        "message": "please input your email"
+                        "message": "emailRequired"
                     },
                     {
                         "pattern": "^([\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4})?$",
-                        "message": "please input a valid email"
+                        "message": "emailInvalid"
                     }
                 ]
             },
             "searchPhrase": {
-                "label": "Search Phrase",
-                "placeholder": "Type the search phrase you want to be monitored",
+                "label": "searchPhraseLabel",
+                "placeholder": "searchPhrasePlaceholder",
                 "rules": [
                     {
                         "required": true,
-                        "message": "please input a search phrase"
+                        "message": "searchPhraseRequired"
                     },
                     {
                         "max": 255,
-                        "message": "please input a smaller search phrase"
+                        "message": "searchPhraseInvalid"
                     }
                 ]
             },
             "frequency": {
-                "label": "Frequency (minutes)",
-                "placeholder": "Select the frequency in which your alerts will be sent",
-                "mobileListTitle": "Select the frequency",
+                "label": "frequencyLabel",
+                "placeholder": "frequencyPlaceholder",
+                "mobileLabel": "frequencyMobileLabel",
                 "rules": [
                     {
                         "required": true,
-                        "message": "please select a frequency"
+                        "message": "frequencyRequired"
                     }
                 ]
             }

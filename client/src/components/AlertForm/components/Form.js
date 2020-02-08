@@ -88,7 +88,7 @@ function FormComponent ({
         })(
           <Select
             placeholder={params.frequency.placeholder}
-            mobileListTitle={params.frequency.mobileListTitle}
+            mobileListTitle={params.frequency.mobileLabel}
             items={frequencies}
             disabled={formDisabled}
             value={form.getFieldValue('frequency')}
