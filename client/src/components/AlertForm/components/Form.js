@@ -14,19 +14,33 @@ function FormComponent ({
   onSubmit = (e) => {}, 
   onReset = (e) => {}, 
   onGoBack = (e) => {}, 
+  onDelete = (e) => {}, 
+  deleteAllowed = false
 }) {
   
   if (!params) return null;
 
   const formDisabled = loadingSubmit || loading;
 
-  const onFrequencyChange = frequency => form.setFieldsValue({ frequency  });
+  const onFrequencyChange = (frequency, callback = null) => {
+    form.setFieldsValue({ frequency  }, callback);
+  };
 
   return (
     <Form 
       className="alert-form" 
       onSubmit={e => onSubmit(e)}
     >
+      
+      {deleteAllowed && <Button 
+        shape="circle" 
+        disabled={formDisabled} 
+        onClick={e => onDelete(e)} 
+        className="alert-form__delete-btn" 
+      > 
+        <Icon type="delete"></Icon>
+      </Button>}
+
       <Button 
         onClick={e => onGoBack(e)} 
         disabled={formDisabled} 

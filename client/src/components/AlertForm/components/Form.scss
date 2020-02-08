@@ -35,6 +35,16 @@
         }
     }
 
+    &__delete-btn {
+        color: $error-color;
+        border-color: $error-color;
+        
+        &:focus {
+            color: $error-color;
+            border-color: $error-color;
+        }
+    }
+
     &__btn-area {
         @include breakpoint(mobile) {
             position: absolute;

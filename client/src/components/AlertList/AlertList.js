@@ -10,23 +10,60 @@ class AlertList extends Component {
 
   state = {
     loading: false,
-    data: [],
-    mobile: false
+    data: [], 
+    page: 0, 
+    total: 0,
+    mobile: false,
+    limit: 10,
+    loadOnScroll: true
+  }
+
+  get hasMoreToLoad () {
+    const { data, total } = this.state;
+    return data.length !== total;
   }
 
   componentDidMount () {
-    this.setState({ mobile: isMobile() })
+    this.refs.listContainer.addEventListener("scroll", () => this.onScroll());
 
-    this.getItems()
+    const mobile = isMobile();
+    
+    this.setState({ 
+      mobile, 
+      limit: mobile ? 10 : 15 
+    }, () => {
+      this.getItems();
+    })
   }
 
-  async getItems () {
+  onScroll () {
+    if (!this.state.loadOnScroll || !this.hasMoreToLoad) return;
+
+    const {
+      scrollTop,
+      clientHeight,
+      scrollHeight
+    } = this.refs.listContainer;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      this.getItems();
+    }
+  }
+
+  async getItems (toPage = this.state.page + 1, limit = this.state.limit) {
     try {
       this.setState({ loading: true });
       
-      const data = await request('/alert', 'GET')
+      const res = await request(`/alert?page=${toPage}&limit=${limit}`, 'GET');
       
-      this.setState({ data });
+      this.setState({
+        page: res.page, 
+        total: res.total, 
+        data: [
+          ...this.state.data,
+          ...res.data
+        ]
+      });
 
     } finally {
       this.setState({ loading: false });
@@ -62,19 +99,23 @@ class AlertList extends Component {
     const { data, loading, mobile } = this.state; 
 
     return (
-      <Suspense fallback={<Loader/>}>
-        <List
-          data={data} 
-          loading={loading} 
-          onCreate={() => this.createItem()} 
-          onEdit={item => this.editItem(item)}
-          onDelete={item => this.deleteItem(item)} 
-          titleKey="searchPhrase"
-          descriptionKey="email"
-          infoKey="frequency"
-          mobile={mobile}
-        ></List>
-      </Suspense>
+      <div style={{ height: '100%', overflow: 'auto' }} ref="listContainer">
+        <Suspense fallback={<Loader/>}>
+          <List
+            data={data} 
+            loading={loading} 
+            onCreate={() => this.createItem()} 
+            onEdit={item => this.editItem(item)}
+            onDelete={item => this.deleteItem(item)} 
+            onLoadMore={() => this.getItems()}
+            titleKey="searchPhrase"
+            descriptionKey="email"
+            infoKey="frequency"
+            mobile={mobile}
+            hasMoreToLoad={this.hasMoreToLoad}
+          ></List>
+        </Suspense>
+      </div>
     );
   }
 }

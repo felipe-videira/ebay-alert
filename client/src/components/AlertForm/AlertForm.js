@@ -1,3 +1,4 @@
+import { isMobile } from 'utils';
 import Form from './components/Form';
 import request from 'services/request';
 import Loader from 'components/common/loader';
@@ -11,27 +12,35 @@ class AlertForm extends Component {
       loading: false,
       loadingSubmit: false,
       frequencies: [],
-      formParams: null
+      formParams: null,
+      mobile: false
+    }
+
+    get id () {
+      return this.props.match.params.id;
+    }
+
+    get deleteAllowed () {
+      return this.state.mobile && !!this.id
     }
 
     async componentDidMount() {
       try {
-        this.setState({ loading: true });
+        this.setState({ 
+          loading: true,
+          mobile: isMobile() 
+        });
 
         this.setState({ 
           formParams: await this.getFormParams(), 
           frequencies: await this.getFrequencies(),
         });
 
-        const { 
-          match: { params: { id }}, 
-          form: { setFields } 
-        } = this.props;
+        if (!this.id) return;
 
-        if (!id) return;
-        const item = await this.getItem(id);
+        const item = await this.getItem(this.id);
         
-        setFields({
+        this.props.form.setFields({
           email: { value: item.email },
           searchPhrase: { value: item.searchPhrase }, 
           frequency: { value: item.frequency },
@@ -51,17 +60,29 @@ class AlertForm extends Component {
         const values = await this.handleValidate();
         if (!values) return;
 
-        const { match, history } = this.props;
-
-        const { message } = await this.saveItem(values, match.params.id);
+        const { message } = await this.saveItem(values, this.id);
 
         displayMessage.success(message);
-        history.push('/');
+        this.props.history.push('/');
 
       } finally {
         this.setState({ loadingSubmit: false });
       }
     };
+
+    async handleDelete () {
+      try {
+        this.setState({ loadingSubmit: true });
+
+        const { message } = await request(`/alert/${this.id}`, 'DELETE');
+
+        displayMessage.success(message);
+        this.props.history.push('/');
+      
+      } finally {
+        this.setState({ loadingSubmit: false });
+      }
+    }
 
     getFrequencies () {
       return request('/frequency', 'GET');
@@ -110,6 +131,8 @@ class AlertForm extends Component {
             onSubmit={e => this.handleSubmit(e)}
             onReset={e => this.handleReset(e)} 
             onGoBack={() => history.goBack()}
+            onDelete={() => this.handleDelete()} 
+            deleteAllowed={this.deleteAllowed}
           ></Form>
         </Suspense>
       ); 

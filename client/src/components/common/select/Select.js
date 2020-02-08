@@ -22,8 +22,9 @@ export default ({
   }
 
   const onMobileItemSelected = item => {
-    onChange(item[valueKey]);
-    setTimeout(() => setShowModal(!showModal), 200);
+    onChange(item[valueKey], () => {
+      setShowModal(!showModal)
+    });
   }
 
   const getListClass = () => {

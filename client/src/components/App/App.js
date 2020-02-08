@@ -26,7 +26,6 @@ class App extends Component {
             </Switch>
           </BrowserRouter>
         </Content>
-        <Footer className="app__footer"></Footer>
       </Layout>
     );
   }

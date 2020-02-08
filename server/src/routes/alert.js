@@ -26,16 +26,25 @@ router.get('/params', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const alerts = await Alert.find({ 
-            deleted: 0 
-        }, { 
-            searchPhrase: 1, 
-            email: 1, 
-            frequency: 1, 
-            _id: 1 
-        });
+        let { page = 1, limit = 5 } = req.query;
 
-        res.json(alerts);
+        page = parseInt(page);
+        limit = parseInt(limit);
+
+        const { docs, total, pages } = await Alert.paginate({ 
+            deleted: 0 
+        }, {
+            page,
+            limit,
+            select: 'searchPhrase email frequency _id',
+        })
+
+        res.json({ 
+            data: docs, 
+            page, 
+            pages, 
+            total 
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

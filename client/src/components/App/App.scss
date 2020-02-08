@@ -13,11 +13,4 @@
         position: relative;
         background-color: #fff;
     }
-
-    &__footer {
-        width: 100%;
-        height: $footer-height;
-        margin-top: -$footer-height;
-        z-index: 1;
-    }
 }
