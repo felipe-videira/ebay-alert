@@ -1,5 +1,5 @@
 import React from 'react';
-import Loader from './components/Loader.react';
+import Loader from './Loader';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {

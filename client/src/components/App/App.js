@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-const { Header, Content, Footer } = Layout
+const { Header, Content } = Layout
 
 class App extends Component {
 

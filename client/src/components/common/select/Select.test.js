@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from './components/Select.react';
+import Select from './Select';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
