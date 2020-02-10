@@ -1,17 +1,45 @@
 version: "3"
 
 services:
+  db:
+    image: mongo
+    restart: always
+    container_name: "mongo"
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+
+  db_seed:
+    build: ./server/db-seed
+    depends_on:
+      - db
+
+  server:
+    build: ./server
+    command: npm run test
+    expose:
+      - ${API_PORT}
+    ports:
+      - ${API_PORT}:${API_PORT}
+    volumes:
+      - ./server/src:/usr/app/ebay-alert-api/src
+      - ./server/test:/usr/app/ebay-alert-api/test
+      - ./server/package.json:/usr/app/ebay-alert-api/package.json
+    depends_on:
+      - db
+    environment:
+      - API_PORT=${API_PORT}
+      - DB_URL=${DB_URL}
+      - NODE_ENV=test
+
   client:
     build: ./client
     command: npm run test
     volumes:
-      - /usr/app/ebay-alert-web/node_modules
       - ./client/src:/usr/app/ebay-alert-web/src
       - ./client/__tests__:/usr/app/ebay-alert-web/__tests__
+      - ./client/__mocks__:/usr/app/ebay-alert-web/__mocks__
+      - ./client/package.json:/usr/app/ebay-alert-web/package.json
     environment:
-      - REACT_APP_API_HOST=${REACT_APP_API_HOST}
-
-
-
-
-      
+      - NODE_ENV=test
