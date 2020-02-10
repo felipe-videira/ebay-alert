@@ -26,7 +26,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
+    "test-update": "jest --updateSnapshot",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -45,6 +46,10 @@
     ]
   },
   "jest": {
+    "testMatch": [ 
+      "<rootDir>/__tests__/**/*.[jt]s?(x)", 
+      "**/?(*.)+(spec|test).[jt]s?(x)" 
+    ], 
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js"
     }

@@ -4,7 +4,7 @@ import { Select, Input, Button } from 'antd';
 import React, { useState } from 'react'; 
 
 export default ({
-    items,
+    items = [],
     value,
     placeholder,
     mobileListTitle,

@@ -1,5 +1,5 @@
 import React from 'react';
-import Form from './components/Form';
+import Form from '../src/components/AlertForm/components/Form';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {

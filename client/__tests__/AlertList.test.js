@@ -1,5 +1,5 @@
 import React from 'react';
-import List from './components/List';
+import List from '../src/components/AlertList/components/List';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
