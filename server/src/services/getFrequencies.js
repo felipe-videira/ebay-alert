@@ -1,5 +1,6 @@
+const { get } = require('./db');
 const Frequency = require('../models/frequency');
 
 module.exports = () => {
-    return Frequency.find({ deleted: 0 }, { value: 1, label: 1 });
+    return get(Frequency, {}, { value: 1, label: 1 });
 }

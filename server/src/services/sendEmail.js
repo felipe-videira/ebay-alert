@@ -1,3 +1,4 @@
+const { updateOne } = require("./db");
 const nodemailer = require("nodemailer");
 
 let transporter = null;
@@ -25,8 +26,7 @@ module.exports = async email => {
         });
 
         email.sended = 1;
-        email.lastModifiedAt = new Date().toISOString();
-        return email.save();
+        return updateOne(email);
 
     } catch (error) {
         throw error;

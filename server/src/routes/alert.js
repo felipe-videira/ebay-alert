@@ -1,20 +1,23 @@
 
-const db = require('../database')();
-const Alert = require('../models/alert');
 const router = require('express').Router();
+const Alert = require('../models/alert');
+
+const db = require('../services/db');
+const getTranslation = require('../services/getTranslation');
+
 const getLang = require('../middlewares/getLang');
 const getAlert = require('../middlewares/getAlert');
-const getTranslation = require('../services/getTranslation');
 const setResponseMessage = require('../middlewares/setResponseMessage');
+
 
 router.get('/params', getLang, async (req, res) => {
     try {
-        const { fields } = await db.collection('formParams')
-            .findOne({ 
-                form: 'alertForm', deleted: 0 
-            }, { 
-                fields: { fields: 1 }
-            });
+        const { fields } = await db.getOne('formParams', { 
+            form: 'alertForm', 
+            deleted: 0 
+        }, { 
+            fields: 1 
+        });
 
         if (!fields) {
             res.status(404).json({});
@@ -50,13 +53,13 @@ router.get('/', async (req, res) => {
         page = parseInt(page);
         limit = parseInt(limit);
 
-        const { docs, total, pages } = await Alert.paginate({ 
+        const { docs, total, pages } = await db.paginate(Alert, { 
             deleted: 0 
         }, {
             page,
             limit,
             select: 'searchPhrase email frequency _id',
-        })
+        });
 
         res.json({ 
             data: docs, 
@@ -77,9 +80,7 @@ router.get('/:id', getAlert, async (req, res) => {
 
 router.post('/', setResponseMessage, async (req, res) => {
     try {
-        const alert = new Alert(req.body);
-
-        const { _id } = await alert.save();
+        const { _id } = await db.save(Alert, req.body);
 
         res.status(201).json({ 
             message: res.message,
@@ -92,16 +93,14 @@ router.post('/', setResponseMessage, async (req, res) => {
 
 router.patch('/:id', setResponseMessage, getAlert, async(req, res) => {
     try {
-        if (req.body.searchPhrase) 
-            res.alert.searchPhrase = req.body.searchPhrase;
-        if (req.body.frequency) 
-            res.alert.frequency = req.body.frequency;
-        if (req.body.email) 
-            res.alert.email = req.body.email;
+        const { searchPhrase, frequency, email } = req.body;
+        const { alert } = res;
 
-        res.alert.lastModifiedAt = new Date().toISOString();
+        if (searchPhrase) alert.searchPhrase = searchPhrase;
+        if (frequency) alert.frequency = frequency;
+        if (email) alert.email = email;
 
-        const updatedAlert = await res.alert.save();
+        const updatedAlert = await db.updateOne(alert);
 
         res.json({
             message: res.message, 
@@ -114,9 +113,7 @@ router.patch('/:id', setResponseMessage, getAlert, async(req, res) => {
 
 router.delete('/:id', setResponseMessage, getAlert, async (req, res) => {
     try {
-        res.alert.deleted = 1;
-
-        await res.alert.save();
+        await db.deleteOne(alert);
 
         res.json({ message: res.message });
     } catch(err) {

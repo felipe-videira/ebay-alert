@@ -1,14 +1,19 @@
-const mongoose = require('mongoose');
+const getLang = require('./getLang');
 const Alert = require('../models/alert');
+const { getById } = require('../services/db');
+const getTranslation = require('../services/getTranslation');
 
 module.exports = async (req, res, next) => {
   try {
-    const alert = await Alert.findOne({
-      _id: mongoose.Types.ObjectId(req.params.id), 
-      deleted: 0,  
-    });
-    
-    if (!alert) return res.status(404).json({ message: 'Cant find alert'});
+    const alert = await getById(Alert, req.params.id);
+ 
+    if (!alert) {
+      getLang(req, res);
+
+      const message = await getTranslation(`${req.lng}-client`, ['alert_get_404']);
+
+      return res.status(404).json({ message });
+    }
 
     res.alert = alert;
 

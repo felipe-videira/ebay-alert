@@ -78,7 +78,8 @@
         "translation": {
             "alert_post": "Alerta criado com sucesso!", 
             "alert_patch": "Alerta atualizado com sucesso!",
-            "alert_delete": "Alerta excluído com sucesso."
+            "alert_delete": "Alerta excluído com sucesso.",
+            "alert_get_404": "Alerta não encontrado."
         },
         "deleted": 0,
         "createdAt":  "2020-02-08T11:00:00.000Z",
@@ -89,7 +90,8 @@
         "translation": {
             "alert_post": "Alert successfully created!", 
             "alert_patch": "Alert successfully updated!",
-            "alert_delete": "Alert successfully deleted."
+            "alert_delete": "Alert successfully deleted.",
+            "alert_get_404": "Alert not found."
         },
         "deleted": 0,
         "createdAt":  "2020-02-08T11:00:00.000Z",

@@ -1,4 +1,4 @@
-const db = require('../database')();
+const { getOne } = require('./db');
 
 module.exports = async (lng, keys = []) => {
     try {
@@ -15,9 +15,11 @@ module.exports = async (lng, keys = []) => {
             }
         }
 
-        const locale = await db.collection('locales').findOne({ lng, deleted: 0 }, fields);
+        const locale = await getOne('locales', { lng, deleted: 0 }, fields);
 
-        return (locale || {}).translation;
+        const translation = (locale || {}).translation;
+
+        return keys.length === 1 ? translation[keys[0]] : translation;
 
     } catch (err) {
         throw err;

@@ -7,8 +7,6 @@ services:
     container_name: "mongo"
     ports:
       - 27017:27017
-    expose:
-      - 27017
 
   db_seed:
     build: ./server/db-seed
@@ -28,8 +26,6 @@ services:
   server:
     build: ./server
     command: npm run dev
-    expose:
-      - ${API_PORT}
     ports:
       - ${API_PORT}:${API_PORT}
     volumes:

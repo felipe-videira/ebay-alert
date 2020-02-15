@@ -1,0 +1,10 @@
+[
+    {
+        "type": "alert",
+        "subject": "New Prices",
+        "html": "<html><body><h2>New Prices</h2><ol>{{#each this}}<li>{{this.title}} - {{this.price}}</li>{{/each}}</ol></body></html>",
+        "deleted": 0,
+        "createdAt":  "2020-02-15T13:00:00.000Z",
+        "lastModifiedAt":  "2020-02-15T13:00:00.000Z"
+    }
+]

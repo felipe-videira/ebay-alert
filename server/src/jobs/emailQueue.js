@@ -1,19 +1,25 @@
+const { get } = require('../services/db');
 const Email = require('../models/email');
 const sendEmail = require('../services/sendEmail');
 
 module.exports = async frequency => {
     try {
-        const emails = await Email.find({ 
+        const emails = await get(Email, { 
             frequency: frequency.value, 
-            deleted: 0,
             sended: 0 
         });
 
-        const sendEmailRequests = [];
+        const toSend = [];
         for (const email of emails) {
-            sendEmailRequests.push(sendEmail(email));
+            toSend.push(sendEmail(email));
         }
-        await Promise.all(sendEmailRequests);
+        
+        const failed = (await Promise.allSettled(toSend))
+            .filter(o => o.status === 'rejected');
+
+        if (!!failed.length) {
+            //
+        }
 
     } catch (error) {
         return;

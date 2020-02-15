@@ -5,15 +5,14 @@ module.exports = async (req, res, next) => {
   try {
     getLang(req, res);
     
-    const translationKey = `${req.originalUrl.split('/')[1]}_${req.method.toLowerCase()}`;
+    const message = await getTranslation(`${req.lng}-client`, [
+      `${req.originalUrl.split('/')[1]}_${req.method.toLowerCase()}`
+    ]);
 
-    const translation = await getTranslation(`${req.lng}-client`, [translationKey]);
-
-    !translation && next();
-
-    res.message = translation[translationKey];
+    if (message) res.message = message;
 
     next();
+    
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
