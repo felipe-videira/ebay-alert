@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+
+  db_seed:
+    build: ./db-seed
+    depends_on:
+      - db
+
+  db_admin:
+    image: mongo-express
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
+      - ME_CONFIG_MONGODB_PORT=27017
+    expose:
+      - ${DB_ADMIN_PORT}
+    ports:
+      - ${DB_ADMIN_PORT}:8081
+    depends_on:
+      - db
+
+  ebay-alert-api:
+    build: ./
+    command: npm run dev
+    ports:
+      - ${API_PORT}:${API_PORT}
+    volumes:
+      - ./src:/usr/app/ebay-alert-api/src
+    depends_on:
+      - db
+    environment:
+      - API_PORT=${API_PORT}
+      - DB_URL=${DB_URL}
+      - EBAY_APP_ID=${EBAY_APP_ID}
+      - EBAY_SEARCH_API_URL=${EBAY_SEARCH_API_URL}
+      - EMAIL_SENDER=${EMAIL_SENDER}
+      - EMAIL_SENDER_PASSWORD=${EMAIL_SENDER_PASSWORD}
