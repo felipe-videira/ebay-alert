@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from 'i18next';
 import { message } from 'antd';
 
 export default async (
@@ -6,7 +7,8 @@ export default async (
     method,
     data = null,
     options = {},
-    baseUrl = process.env.REACT_APP_API_HOST
+    baseUrl = process.env.REACT_APP_API_HOST,
+    displayErrorMessages = true,
 ) => {
     try {
         const { data: res } = await axios({
@@ -24,15 +26,20 @@ export default async (
         })
         return res;
     } catch (error) {
-        let action;
-        switch (error.response.status) {
-            case 404:
-                action = 'warning'
-                break;
-            default:
-                action = 'error';
-                break;
+        if (!error.response && displayErrorMessages) {
+            message.error(i18n.t('genericError'));
+        } else if (displayErrorMessages) {
+            let action;
+            switch (error.response.status) {
+                case 404:
+                    action = 'warning'
+                    break;
+                default:
+                    action = 'error';
+                    break;
+            }
+            message[action](error.response.data.message);
         }
-        message[action](error.response.data.message);
+        throw error;
     }
 }

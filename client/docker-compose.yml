@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  ebay-alert-web:
+    build: ./
+    command: npm start
+    expose:
+      - ${PORT}
+      - 35729
+    ports:
+      - ${PORT}:3000
+      - 35729:35729
+    volumes:
+      - /usr/app/ebay-alert-web/node_modules
+      - ./src:/usr/app/ebay-alert-web/src
+    environment:
+      - REACT_APP_API_HOST=${REACT_APP_API_HOST}

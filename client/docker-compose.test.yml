@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+   ebay-alert-web-test:
+    build: ./
+    command: npm run test
+    volumes:
+      - ./src:/usr/app/ebay-alert-web/src
+      - ./__tests__:/usr/app/ebay-alert-web/__tests__
+      - ./__mocks__:/usr/app/ebay-alert-web/__mocks__
+      - ./package.json:/usr/app/ebay-alert-web/package.json
+    environment:
+      - NODE_ENV=test
