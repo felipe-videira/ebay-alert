@@ -2,7 +2,7 @@ const cors = require('cors');
 const jobs = require('./jobs');
 const express = require('express');
 const routes = require('./routes');
-const logging = require('./middlewares/logging');
+const logger = require('./middlewares/logger');
 
 const PORT = process.env.API_PORT;
 const app = express();
@@ -12,7 +12,7 @@ require('./database')();
 app.use(express.json());
 app.use(cors());
 
-app.use('/', logging, routes);
+app.use('/', logger, routes);
 
 jobs.init();
 

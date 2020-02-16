@@ -14,9 +14,8 @@ router.get('/params', getLang, async (req, res) => {
     try {
         const { fields } = await db.getOne('formParams', { 
             form: 'alertForm', 
-            deleted: 0 
         }, { 
-            fields: 1 
+            fields: { fields: 1 } 
         });
 
         if (!fields) {
@@ -24,7 +23,7 @@ router.get('/params', getLang, async (req, res) => {
             return;
         }
         
-        const { alertFormParam } = await getTranslation(req.lng, ['alertFormParam'])
+        const alertFormParam = await getTranslation(req.lng, ['alertFormParam'])
         
         if (!alertFormParam) {
             res.status(404).json({});
@@ -34,7 +33,9 @@ router.get('/params', getLang, async (req, res) => {
         for (const field in fields) {
             fields[field].label = alertFormParam[fields[field].label];
             fields[field].placeholder = alertFormParam[fields[field].placeholder];
-            if (fields[field].mobileLabel) fields[field].mobileLabel = alertFormParam[fields[field].mobileLabel];
+            if (fields[field].mobileLabel) {
+                fields[field].mobileLabel = alertFormParam[fields[field].mobileLabel];
+            }
             if (fields[field].rules && !!fields[field].rules.length) {
                 fields[field].rules.map(o => o.message = alertFormParam[o.message]);
             }
@@ -91,7 +92,7 @@ router.post('/', setResponseMessage, async (req, res) => {
     }
 })
 
-router.patch('/:id', setResponseMessage, getAlert, async(req, res) => {
+router.patch('/:id', setResponseMessage, getAlert, async (req, res) => {
     try {
         const { searchPhrase, frequency, email } = req.body;
         const { alert } = res;
@@ -100,12 +101,9 @@ router.patch('/:id', setResponseMessage, getAlert, async(req, res) => {
         if (frequency) alert.frequency = frequency;
         if (email) alert.email = email;
 
-        const updatedAlert = await db.updateOne(alert);
+        await db.updateOne(alert);
 
-        res.json({
-            message: res.message, 
-            data: updatedAlert._id
-        });
+        res.json({ message: res.message });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -113,7 +111,7 @@ router.patch('/:id', setResponseMessage, getAlert, async(req, res) => {
 
 router.delete('/:id', setResponseMessage, getAlert, async (req, res) => {
     try {
-        await db.deleteOne(alert);
+        await db.deleteOne(res.alert);
 
         res.json({ message: res.message });
     } catch(err) {

@@ -1,14 +1,23 @@
 const winston = require('winston');
+
 require('winston-mongodb');
 
 const dbConfig = {
     db: process.env.DB_URL,
-    collection: 'log',
+    collection: 'logs',
     options: { useNewUrlParser: true }
 };
 
+const formatter = log => {
+    if (log.meta) {
+        log.message = `${log.message}: ${JSON.stringify(log.meta)}`;
+    }
+    return log;
+}
+
 const logger = winston.createLogger({
     levels: winston.config.syslog.levels,
+    format: winston.format(formatter)(),
     transports: [
       new winston.transports.MongoDB({ ...dbConfig, level: 'error' }),
       new winston.transports.MongoDB({ ...dbConfig, level: 'warn' }),

@@ -15,7 +15,7 @@ module.exports = async (lng, keys = []) => {
             }
         }
 
-        const locale = await getOne('locales', { lng, deleted: 0 }, fields);
+        const locale = await getOne('locales', { lng }, fields);
 
         const translation = (locale || {}).translation;
 
