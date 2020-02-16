@@ -6,14 +6,14 @@ describe('Alert Endpoints', () => {
     it('should create an alert', async () => {
         const { statusCode, body } = await request(app)
             .post('/alert')
+            .set('Accept-Language', 'pt-BR,pt;q=0.9')
             .send({
                 searchPhrase: "Horses",
                 frequency: 30,
                 email: "test@gmail.com"
             })
-        console.log(body)
         expect(statusCode).equal(201);
-        expect(body).toHaveProperty('message');
-        expect(body).toHaveProperty('data');
+        expect(body).to.have.property('message');
+        expect(body).to.have.property('data');
     })
 })

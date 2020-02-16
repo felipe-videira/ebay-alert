@@ -1,5 +1,6 @@
-const { get } = require('../services/db');
 const Email = require('../models/email');
+const { get } = require('../services/db');
+const logger = require('../services/logger');
 const sendEmail = require('../services/sendEmail');
 
 module.exports = async frequency => {
@@ -18,10 +19,15 @@ module.exports = async frequency => {
             .filter(o => o.status === 'rejected');
 
         if (!!failed.length) {
-            //
+            logger.error({
+                message: 'emailQueue:sendEmail',
+                meta: failed
+            });
         }
 
     } catch (error) {
+        logger.error({ message: 'emailQueue', meta: error });
+
         return;
     }
 }

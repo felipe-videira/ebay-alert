@@ -3,6 +3,7 @@ const Alert = require('../models/alert');
 const Handlebars = require("handlebars");
 const { partition } = require('../utils');
 const { get } = require('../services/db');
+const logger = require('../services/logger');
 const scheduleEmail = require('../services/scheduleEmail');
 const getEmailTemplate = require('../services/getEmailTemplate');
 
@@ -25,6 +26,13 @@ module.exports = async frequency => {
             failedItems 
         ] = partition(await Promise.allSettled(searches), o => o.status === 'fulfilled');
 
+        if (!!failedItems.length) {
+            logger.error({
+                message: 'priceAlert:findItemsByKeywords',
+                meta: failedItems
+            });
+        }
+
         if (!items.length) return;
 
         if (!emailTemplate) emailTemplate = await getEmailTemplate('alert');
@@ -35,7 +43,7 @@ module.exports = async frequency => {
         for (let i = 0; i < items.length; i++) {
             emails.push(scheduleEmail(
                 emailTemplate.subject, 
-                emailCompiler(items[i]), 
+                emailCompiler(items[i].value), 
                 alerts[i].email, 
                 frequency
             ));
@@ -46,10 +54,15 @@ module.exports = async frequency => {
 
             
         if (!!failed.length) {
-            //
+            logger.error({
+                message: 'priceAlert:scheduleEmail',
+                meta: failed
+            });
         }
 
     } catch (error) {
+        logger.error({ message: 'priceAlert', meta: error });
+
         return;
     }
 }

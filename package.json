@@ -2,8 +2,11 @@
     "name": "ebay-alert",
     "description": "This package only exists for the purpose of containing scripts.",
     "scripts": {
-        "first-start": "docker-compose up --build",
+        "setup": "npm run config && npm run build",
         "start": "docker-compose up",
-        "test": "docker-compose -f docker-compose.test.yml up"
+        "config": "docker-compose config",
+        "build": "docker-compose up --build",
+        "test": "docker-compose -f docker-compose.test.yml up",
+        "no-seed-start": "docker-compose up --scale db_seed=0"
     }
 }
