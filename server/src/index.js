@@ -14,7 +14,9 @@ app.use(cors());
 
 app.use('/', logger, routes);
 
-jobs.init();
+if (process.env.NODE_ENV !== 'test') {
+    jobs.init();
+}
 
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}!`);

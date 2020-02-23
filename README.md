@@ -45,6 +45,10 @@ A web app to manage alerts for products prices on Ebay.com. Using Node.js, React
 ```bash
   docker-compose up --scale db_seed=0
 ```
+#### Running only the tests you want (in this example, the client)
+```bash
+  docker-compose -f docker-compose.test.yml up --scale db=0 --scale db_seed=0 --scale server=0
+```
 
 ## Main libraries used
   [axios](https://www.npmjs.com/package/axios) 
