@@ -2,4 +2,19 @@ import './Loader.scss';
 import React from 'react'; 
 import { Spin } from 'antd';
 
-export default props => <Spin {...props} className="loader"/>
+export const LOADER_SIZE = {
+    SMALL: 'small',
+    NORMAL: 'default',
+    LARGE: 'large'
+}
+
+export default ({ 
+    size = LOADER_SIZE.NORMAL, 
+    visible = true
+}) => (
+    <Spin
+        size={size} 
+        spinning={visible} 
+        className="loader"
+    />
+);

@@ -3,14 +3,20 @@ import Loader from '../loader';
 import { Select, Input, Button } from 'antd';
 import React, { useState } from 'react'; 
 
+export const SELECT_SIZE = {
+  SMALL: 'small',
+  NORMAL: 'default',
+  LARGE: 'large'
+}
+
 export default ({
     items = [],
-    value,
-    placeholder,
-    mobileListTitle,
+    value = null,
+    placeholder = null,
+    mobileListTitle = null,
     labelKey="label",
     valueKey="value",
-    size = "large",
+    size = SELECT_SIZE.LARGE,
     disabled = false,
     onChange = () => {}
 }) => {
@@ -66,7 +72,7 @@ export default ({
         /> 
           <div className={getListClass()}>
             <div className="select-mobile__list__navbar">
-              <p>{mobileListTitle}</p>
+              {mobileListTitle && <p>{mobileListTitle}</p>}
               <Button 
                 shape="circle" 
                 icon="close" 

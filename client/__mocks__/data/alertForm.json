@@ -1,0 +1,57 @@
+{
+    "formParams": {
+        "email": {
+            "label": "emailLabel",
+            "placeholder": "emailPlaceholder",
+            "rules": [
+                {
+                    "required": true,
+                    "message": "emailRequired"
+                },
+                {
+                    "pattern": "^([\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4})?$",
+                    "message": "emailInvalid"
+                }
+            ]
+        },
+        "searchPhrase": {
+            "label": "searchPhraseLabel",
+            "placeholder": "searchPhrasePlaceholder",
+            "rules": [
+                {
+                    "required": true,
+                    "message": "searchPhraseRequired"
+                },
+                {
+                    "max": 255,
+                    "message": "searchPhraseInvalid"
+                }
+            ]
+        },
+        "frequency": {
+            "label": "frequencyLabel",
+            "placeholder": "frequencyPlaceholder",
+            "mobileLabel": "frequencyMobileLabel",
+            "rules": [
+                {
+                    "required": true,
+                    "message": "frequencyRequired"
+                }
+            ]
+        }
+    },
+    "frequencies": [
+        {
+            "value": "2",
+            "label": "2"
+        }, 
+        {
+            "value": "10",
+            "label": "10"
+        },  
+        {
+            "value": "30",
+            "label": "30"
+        } 
+    ]
+}

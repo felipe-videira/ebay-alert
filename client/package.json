@@ -24,7 +24,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "test": "jest --passWithNoTests",
+    "unit": "jest \"__tests__/unit/.*\\.test\\.js\" --passWithNoTests",
+    "snapshot": "jest \"__tests__/snapshot/.*\\.test\\.js\" --passWithNoTests",
+    "test": "npm run unit && npm run snapshot",
     "build": "react-scripts build",
     "test-update": "jest --updateSnapshot",
     "eject": "react-scripts eject"
@@ -45,10 +47,6 @@
     ]
   },
   "jest": {
-    "testMatch": [
-      "<rootDir>/__tests__/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ],
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js"
     }

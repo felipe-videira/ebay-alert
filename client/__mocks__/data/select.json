@@ -1,0 +1,27 @@
+{
+    "items": [{
+        "label": "one",
+        "value": "1"
+    }, {
+        "label": "two",
+        "value": "2"
+    }, {
+        "label": "three",
+        "value": "3"
+    }],
+    "value": "2",
+    "customKeysItems": [{
+        "name": "one",
+        "id": "1"
+    }, {
+        "name": "two",
+        "id": "2"
+    }, {
+        "name": "three",
+        "id": "3"
+    }],
+    "labelKey": "name",
+    "valueKey": "id",
+    "placeholder": "I'm holding a place!",
+    "mobileListTitle": "I'm a mobile list title!"
+}

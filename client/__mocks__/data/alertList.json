@@ -1,0 +1,31 @@
+{
+    "data": [{
+        "title": "Title One",
+        "description": "Description One",
+        "info": "Information One"
+    }, {
+        "title": "Title Two",
+        "description": "Description Two",
+        "info": "Information Two"
+    }, {
+        "title": "Title Three",
+        "description": "Description Three",
+        "info": "Information Three"
+    }],
+    "dataWithCutomKeys": [{
+        "name": "Name One",
+        "summary": "Summary One",
+        "information": "Information One"
+    }, {
+        "name": "Name Two",
+        "summary": "Summary Two",
+        "information": "Information Two"
+    }, {
+        "name": "Name Three",
+        "summary": "Summary Three",
+        "information": "Information Three"
+    }],
+    "titleKey": "name",
+    "descriptionKey": "summary",
+    "infoKey": "information"
+}

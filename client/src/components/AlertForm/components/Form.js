@@ -6,24 +6,34 @@ import { Form, Input, Icon, Button } from 'antd';
 
 function FormComponent ({
   t, 
-  form, 
   params,
   loading,
   loadingSubmit,
   frequencies = [],
+  deleteAllowed = false,
   onSubmit = (e) => {}, 
   onReset = (e) => {}, 
   onGoBack = (e) => {}, 
   onDelete = (e) => {}, 
-  deleteAllowed = false
+  getFieldValue = name => null,
+  getFieldDecorator = (label, options) => (component) => component,
+  setFieldsValue = (values, callback) => callback && callback(),
 }) {
   
-  if (!params) return null;
+  if (
+    !params || 
+    !Object.keys(params).length || 
+    !getFieldValue || 
+    !getFieldDecorator || 
+    !setFieldsValue
+  ) {
+    return null;
+  }
 
   const formDisabled = loadingSubmit || loading;
 
   const onFrequencyChange = (frequency, callback = null) => {
-    form.setFieldsValue({ frequency  }, callback);
+    setFieldsValue({ frequency  }, callback);
   };
 
   return (
@@ -53,7 +63,7 @@ function FormComponent ({
         label={params.email.label} 
         className="alert-form__item"
       >
-        {form.getFieldDecorator('email', { 
+        {getFieldDecorator('email', { 
           rules: params.email.rules 
         })(
           <Input 
@@ -68,7 +78,7 @@ function FormComponent ({
         label={params.searchPhrase.label} 
         className="alert-form__item"
       >
-        {form.getFieldDecorator('searchPhrase', { 
+        {getFieldDecorator('searchPhrase', { 
           rules: params.searchPhrase.rules 
         })(
           <Input 
@@ -83,7 +93,7 @@ function FormComponent ({
         label={params.frequency.label} 
         className="alert-form__item"
       >
-        {form.getFieldDecorator('frequency', { 
+        {getFieldDecorator('frequency', { 
           rules: params.frequency.rules 
         })(
           <Select
@@ -91,7 +101,7 @@ function FormComponent ({
             mobileListTitle={params.frequency.mobileLabel}
             items={frequencies}
             disabled={formDisabled}
-            value={form.getFieldValue('frequency')}
+            value={getFieldValue('frequency')}
             onChange={onFrequencyChange}
           />
         )}

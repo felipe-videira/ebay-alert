@@ -123,16 +123,18 @@ class AlertForm extends Component {
       return (
         <Suspense fallback={<Loader/>}>
           <Form
-            form={form} 
             loading={loading}
             params={formParams}
             frequencies={frequencies} 
             loadingSubmit={loadingSubmit}
+            deleteAllowed={this.deleteAllowed}
             onSubmit={e => this.handleSubmit(e)}
             onReset={e => this.handleReset(e)} 
             onGoBack={() => history.goBack()}
             onDelete={() => this.handleDelete()} 
-            deleteAllowed={this.deleteAllowed}
+            getFieldValue={form.getFieldValue}
+            getFieldDecorator={form.getFieldDecorator}
+            setFieldsValue={form.setFieldsValue}
           ></Form>
         </Suspense>
       ); 

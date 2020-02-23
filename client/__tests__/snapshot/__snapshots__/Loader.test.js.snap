@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader snapshot tests renders correctly on default values 1`] = `
+<div
+  className="ant-spin ant-spin-spinning loader"
+>
+  <span
+    className="ant-spin-dot ant-spin-dot-spin"
+  >
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+  </span>
+</div>
+`;
+
+exports[`Loader snapshot tests renders correctly on explicitly visible mode 1`] = `
+<div
+  className="ant-spin ant-spin-spinning loader"
+>
+  <span
+    className="ant-spin-dot ant-spin-dot-spin"
+  >
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+  </span>
+</div>
+`;
+
+exports[`Loader snapshot tests renders correctly on invisible mode 1`] = `
+<div
+  className="ant-spin loader"
+>
+  <span
+    className="ant-spin-dot ant-spin-dot-spin"
+  >
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+  </span>
+</div>
+`;
+
+exports[`Loader snapshot tests renders correctly on large size 1`] = `
+<div
+  className="ant-spin ant-spin-lg ant-spin-spinning loader"
+>
+  <span
+    className="ant-spin-dot ant-spin-dot-spin"
+  >
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+  </span>
+</div>
+`;
+
+exports[`Loader snapshot tests renders correctly on normal size 1`] = `
+<div
+  className="ant-spin ant-spin-spinning loader"
+>
+  <span
+    className="ant-spin-dot ant-spin-dot-spin"
+  >
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+  </span>
+</div>
+`;
+
+exports[`Loader snapshot tests renders correctly on small size 1`] = `
+<div
+  className="ant-spin ant-spin-sm ant-spin-spinning loader"
+>
+  <span
+    className="ant-spin-dot ant-spin-dot-spin"
+  >
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+    <i
+      className="ant-spin-dot-item"
+    />
+  </span>
+</div>
+`;
