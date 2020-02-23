@@ -5,7 +5,7 @@ A web app to manage alerts for products prices on Ebay.com. Using Node.js, React
  - docker ^19.03.1
 
 ## Installation
-- Create a file named ".env" on the root folder with the information exemplified on the '.env.example' file;
+- Create a file named ".env" on the root folder with the information exemplified on the ".env.example" file;
 
 - For the EBAY_APP_ID value you must create an account [here](https://developer.ebay.com/) and retrieve your AppID;
 
