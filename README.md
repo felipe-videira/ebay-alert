@@ -1,5 +1,5 @@
 # Ebay Alert 
-A web app to manage alerts for products prices on Ebay.com. Using Node.js, React, MongoDB and Docker.
+A web app to manage alerts for products prices on Ebay.com. Using Node.js, React, MongoDB and Docker. Created only for learning purposes.
 
 ## Requirements
  - docker ^19.03.1
