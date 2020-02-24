@@ -6,8 +6,8 @@ const getAlert = require('../middlewares/getAlert');
 const setResponseMessage = require('../middlewares/setResponseMessage');
 
 router.get('/', alert.get);
-router.get('/:id', getAlert, alert.getById);
 router.get('/params', getLang, alert.getParams);
+router.get('/:id', getAlert, alert.getById);
 router.post('/', setResponseMessage, alert.post);
 router.patch('/:id', setResponseMessage, getAlert, alert.patch);
 router.delete('/:id', setResponseMessage, getAlert, alert.delete);

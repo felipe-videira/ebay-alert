@@ -19,20 +19,19 @@ const logger = winston.createLogger({
     levels: winston.config.syslog.levels,
     format: winston.format(formatter)(),
     transports: [
-      new winston.transports.MongoDB({ ...dbConfig, level: 'error' }),
-      new winston.transports.MongoDB({ ...dbConfig, level: 'warn' }),
-      new winston.transports.MongoDB({ ...dbConfig, level: 'info' }),
-
-      new winston.transports.File({ filename: 'verbose.log', level: 'verbose' }),
-      new winston.transports.File({ filename: 'debug.log', level: 'debug' }),
-      new winston.transports.File({ filename: 'silly.log', level: 'silly' }),
+        ...process.env.NODE_ENV !== 'production' ? [
+            new winston.transports.Console({ format: winston.format.simple() })
+        ] : [],
+        ...process.env.NODE_ENV !== 'test' ? [
+            new winston.transports.MongoDB({ ...dbConfig, level: 'error' }),
+            new winston.transports.MongoDB({ ...dbConfig, level: 'warn' }),
+            new winston.transports.MongoDB({ ...dbConfig, level: 'info' }),
+      
+            new winston.transports.File({ filename: 'verbose.log', level: 'verbose' }),
+            new winston.transports.File({ filename: 'debug.log', level: 'debug' }),
+            new winston.transports.File({ filename: 'silly.log', level: 'silly' }),
+        ] : []
     ]
 });
-
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.simple()
-    }));
-}
 
 module.exports = logger;

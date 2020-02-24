@@ -23,9 +23,12 @@ const searchAlerts = async (db, frequency, alerts) => {
     for (const alert of alerts) {
         searches.push(ebay.findItemsByKeywords(alert.searchPhrase));
     }
-    const items = (await Promise.allSettled(searches)
-        .then(data => handleFailed(data, 'findItemsByKeywords')))
-        .filter(o =>  o.status === 'fulfilled');
+    const data = await Promise.allSettled(searches);
+    
+    handleFailed(data, 'findItemsByKeywords');
+
+    const items = data.filter(o =>  o.status === 'fulfilled');
+
     return !!items.length && scheduleEmails(db, frequency, alerts, items);
 }
 
@@ -35,8 +38,9 @@ const scheduleEmails = async (db, frequency, alerts, items) => {
     for (let i = 0; i < items.length; i++) {
         emails.push(schedule(db, subject, compiler(items[i].value), alerts[i].email, frequency));
     }
-    return Promise.allSettled(emails)
-        .then(data => handleFailed(data, 'scheduleEmail'));
+    const data = await Promise.allSettled(emails)
+    handleFailed(data, 'scheduleEmail');
+    return; 
 }
 
 let emailTemplate = null;
@@ -47,12 +51,13 @@ const getEmailTemplate = async db => {
     return [ emailTemplate, emailCompiler ];
 }
 
-const handleFailed = (data, processName) => {
+const handleFailed = async (data, processName) => {
     const failed = data.filter(o => o.status === 'rejected');
     !!failed.length && log.error({ 
         message: `priceAlert:${processName}`, 
         meta: failed 
     });
+
 }
 
 

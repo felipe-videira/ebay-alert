@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
 
-  server:
+  server-test:
     build: ./server
     command: npm run test
     expose:
@@ -26,13 +26,13 @@ services:
       - ./server/test:/usr/app/ebay-alert-api/test
       - ./server/package.json:/usr/app/ebay-alert-api/package.json
     depends_on:
-      - db
+      - db_seed
     environment:
       - API_PORT=${API_PORT}
       - DB_URL=${DB_URL}
       - NODE_ENV=test
 
-  client:
+  client-test:
     build: ./client
     command: npm run test
     volumes:

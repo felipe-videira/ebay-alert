@@ -1,4 +1,5 @@
 
+const log = require('../services/log');
 const alert = require('../services/alert');
 
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
             const data = await alert.get(req.locals.db, req.query);
             res.status(data ? 200 : 404).json(data);
         } catch (err) {
+            log.error({ message: 'request', meta: err.message });
             res.status(500).json({ message: err.message });            
         }
     },
@@ -14,14 +16,16 @@ module.exports = {
         try {
             res.status(200).json(alert.getById(res.alert));
         } catch (err) {
+            log.error({ message: 'request', meta: err.message });
             res.status(500).json({ message: err.message });            
         }
     },
     getParams: async (req, res) => {
         try {
-            const data = await alert.getParams(req.locals.db, lng);
+            const data = await alert.getParams(req.locals.db, req.lng);
             res.status(data ? 200 : 404).json(data);
         } catch (err) {
+            log.error({ message: 'request', meta: err.message });
             res.status(500).json({ message: err.message });            
         }
     },
@@ -30,6 +34,7 @@ module.exports = {
             const data = await alert.save(req.locals.db, req.body, );
             res.status(data ? 201 : 400).json({ message: data && res.message, data });
         } catch (err) {
+            log.error({ message: 'request', meta: err.message });
             res.status(500).json({ message: err.message });            
         }
     },
@@ -38,6 +43,7 @@ module.exports = {
             await alert.update(req.locals.db, req.body, res.alert);
             res.status(200).json({ message: res.message });
         } catch (err) {
+            log.error({ message: 'request', meta: err.message });
             res.status(500).json({ message: err.message });            
         }
     },
@@ -46,6 +52,7 @@ module.exports = {
             await alert.delete(req.locals.db, res.alert);
             res.status(200).json({ message: res.message });
         } catch (err) {
+            log.error({ message: 'request', meta: err.message });
             res.status(500).json({ message: err.message });            
         }
     }

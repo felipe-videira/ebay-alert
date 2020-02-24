@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { emailValidation } = require('../utils');
+const mongoosePaginate = require('mongoose-paginate');
 
 const alertSchema = new mongoose.Schema({
   searchPhrase: {
@@ -30,5 +31,7 @@ const alertSchema = new mongoose.Schema({
     default: new Date().toISOString()
   }
 });
+
+alertSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Alert', alertSchema);

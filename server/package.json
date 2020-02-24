@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "integration": "NODE_ENV=test mocha 'test/integration/**/*.test.js' --timeout 5000",
-    "unit": "NODE_ENV=test mocha 'test/unit/**/*.test.js' --timeout 5000",
+    "integration": "NODE_ENV=test mocha 'tests/integration/**/*.test.js' --timeout 10000",
+    "unit": "NODE_ENV=test mocha 'tests/unit/**/*.test.js' --timeout 5000",
     "test": "npm run integration",
     "dev": "nodemon src/app.js -L --verbose"
   },

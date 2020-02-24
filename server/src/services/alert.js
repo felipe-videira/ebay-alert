@@ -26,13 +26,13 @@ module.exports = {
         return { searchPhrase, email, frequency, id };
     },
     getParams: async (db, lng) => {
-        const { fields } = await dbService.getOne('formParams', { 
+        const { fields } = await dbService.getOne(db, 'formParams', { 
             form: 'alertForm', 
         }, { 
             fields: { fields: 1 } 
         });
         if (!fields) return;
-        const alertFormParam = await translation.get(db, lng, ['alertFormParam'])
+        const alertFormParam = await translation.get(db, lng.toString().split('-')[0], ['alertFormParam'])
         if (!alertFormParam) return;
         for (const field in fields) {
             fields[field].label = alertFormParam[fields[field].label];

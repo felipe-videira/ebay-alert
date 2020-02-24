@@ -1,0 +1,59 @@
+{
+    "header": [
+        "Accept-Language",
+        "pt-BR,pt;q=0.9"
+    ],
+    "createBody": {
+        "searchPhrase": "Horses",
+        "frequency": 30,
+        "email": "test@gmail.com"
+    },
+    "updateBody": {
+        "frequency": 2
+    },
+    "docToUpdateId": "5e54336d37e22e01af318050",
+    "docToDeleteId": "5e54338137e22e01af31805b",
+    "docToGetId": "5e543401be73b8022d176dea",
+    "setupDocuments": [
+        {
+            "_id": "5e54336d37e22e01af318050",
+            "deleted": 0,
+            "createdAt": "2020-02-24T20:34:29.750Z",
+            "lastModifiedAt": "2020-02-24T20:35:07.895Z",
+            "email": "videirafelipe020@gmail.com",
+            "searchPhrase": "cavalos",
+            "frequency": 30,
+            "__v": 0
+        },
+        {
+            "_id": "5e54338137e22e01af31805b",
+            "deleted": 0,
+            "createdAt": "2020-02-24T20:34:29.750Z",
+            "lastModifiedAt": "2020-02-24T20:35:07.895Z",
+            "email": "videirafelipe020@gmail.com",
+            "searchPhrase": "cavalos",
+            "frequency": 30,
+            "__v": 0
+        },
+        {
+            "_id": "5e543401be73b8022d176dea",
+            "deleted": 0,
+            "createdAt": "2020-02-24T20:34:29.750Z",
+            "lastModifiedAt": "2020-02-24T20:35:07.895Z",
+            "email": "videirafelipe020@gmail.com",
+            "searchPhrase": "cavalos",
+            "frequency": 30,
+            "__v": 0
+        },
+        {
+            "_id": "5e54346fbe73b8022d176df0",
+            "deleted": 1,
+            "createdAt": "2020-02-24T20:34:29.750Z",
+            "lastModifiedAt": "2020-02-24T20:35:07.895Z",
+            "email": "videirafelipe020@gmail.com",
+            "searchPhrase": "cavalos",
+            "frequency": 30,
+            "__v": 0
+        }
+    ]
+}

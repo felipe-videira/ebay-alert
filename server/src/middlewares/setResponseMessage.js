@@ -4,7 +4,7 @@ const translation = require('../services/translation');
 module.exports = async (req, res, next) => {
   try {
     getLang(req, res);
-    res.message = (await translation.get(`${req.lng}-client`, [
+    res.message = (await translation.get(req.locals.db, `${req.lng}-client`, [
       `${req.originalUrl.split('/')[1]}_${req.method.toLowerCase()}`
     ]) || '');
     next();

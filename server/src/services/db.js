@@ -17,7 +17,7 @@ module.exports = {
             if (isModel(coll)) return coll.find(query, fields);
             return db.collection(coll).find(query, fields);
         } catch (error) {
-            log.error({ message: 'db:get', meta: error });
+            log.error({ message: 'db:get', meta: error.message });
             throw error;
         }
     },   
@@ -27,7 +27,7 @@ module.exports = {
             return (isModel(coll) ? coll : db.collection(coll))
                 .findOne(query, fields);
         } catch (error) {
-            log.error({ message: 'db:getOne', meta: error });
+            log.error({ message: 'db:getOne', meta: error.message });
             throw error;
         }
     },
@@ -44,7 +44,7 @@ module.exports = {
                 deleted: 0 
             }, fields);
         } catch (error) {
-            log.error({ message: 'db:getById', meta: error });
+            log.error({ message: 'db:getById', meta: error.message });
             throw error;
         }
     },
@@ -53,14 +53,14 @@ module.exports = {
             query.deleted = 0;
             return !!(isModel(coll) ? coll : db.collection(coll)).count(query);
         } catch (error) {
-            log.error({ message: 'db:exists', meta: error });
+            log.error({ message: 'db:exists', meta: error.message });
             throw error;
         }
     },
     paginate: async (db, coll, query, options) => {
         try {
             query.deleted = 0;
-            if (isModel(coll)) return coll.paginate(query, options);
+            if (isModel(coll) && !!coll.paginate) return coll.paginate(query, options);
             const [{ docs, total: { total }}] = await db.collection(coll).aggregate([{
                 $facet: {
                     docs: [
@@ -80,7 +80,7 @@ module.exports = {
                 pages: roundUp(total / options.limit),  
             }
         } catch (error) {
-            log.error({ message: 'db:paginate', meta: error });
+            log.error({ message: 'db:paginate', meta: error.message });
             throw error;
         }
     },
@@ -90,7 +90,7 @@ module.exports = {
             if (isModel(coll)) return new coll(doc).save();
             return db.collection(coll).insert(doc);
         } catch (error) {
-            log.error({ message: 'db:save', meta: error });
+            log.error({ message: 'db:save', meta: error.message });
             throw error;
         }
     },
@@ -105,7 +105,7 @@ module.exports = {
             return (isModel(coll) ? coll : db.collection(coll))
                 .updateMany(query, { $set: set });
         } catch (error) {
-            log.error({ message: 'db:update', meta: error });
+            log.error({ message: 'db:update', meta: error.message });
             throw error;
         }
     },
@@ -124,7 +124,7 @@ module.exports = {
             return (isModel(coll) ? coll : db.collection(coll))
                 .updateOne(query, { $set: set });
         } catch (error) {
-            log.error({ message: 'db:updateOne', meta: error });
+            log.error({ message: 'db:updateOne', meta: error.message });
             throw error;
         }
     },
@@ -136,7 +136,7 @@ module.exports = {
                     lastModifiedAt: new Date().toISOString()
                 }});
         } catch (error) {
-            log.error({ message: 'db:delete', meta: error });
+            log.error({ message: 'db:delete', meta: error.message });
             throw error;
         }
     },
@@ -152,7 +152,7 @@ module.exports = {
             return (isModel(coll) ? coll : db.collection(coll))
                 .updateOne(query, { $set: set });
         } catch (error) {
-            log.error({ message: 'db:deleteOne', meta: error });
+            log.error({ message: 'db:deleteOne', meta: error.message });
             throw error;
         }
     },

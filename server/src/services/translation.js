@@ -13,7 +13,7 @@ module.exports = {
                 translation: 1
             }
         }
-        const { translation } = ((await getOne(db, 'locales', { lng: lng.split('-')[0] }, fields)) || {});
+        const { translation } = ((await getOne(db, 'locales', { lng }, fields)) || {});
         return keys.length === 1 ? translation[keys[0]] : translation;
     }
 }

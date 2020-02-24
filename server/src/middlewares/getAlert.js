@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
     const alert = await getById(req.locals.db, Alert, req.params.id);
     if (!alert) {
       getLang(req, res);
-      const message = await translation.get(`${req.lng}-client`, ['alert_get_404']);
+      const message = await translation.get(req.locals.db, `${req.lng}-client`, ['alert_get_404']);
       return res.status(404).json({ message });
     }
     res.alert = alert;
