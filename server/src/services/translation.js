@@ -1,9 +1,8 @@
 const { getOne } = require('./db');
 
-module.exports = async (lng, keys = []) => {
-    try {
+module.exports = {
+    get: async (db, lng, keys = []) => {
         let fields
-       
         if (keys && !!keys.length) {
             fields = keys.reduce((keysObj, key) => {
                 keysObj[`translation.${key}`] = 1;
@@ -14,14 +13,7 @@ module.exports = async (lng, keys = []) => {
                 translation: 1
             }
         }
-
-        const locale = await getOne('locales', { lng }, fields);
-
-        const translation = (locale || {}).translation;
-
+        const { translation } = ((await getOne(db, 'locales', { lng: lng.split('-')[0] }, fields)) || {});
         return keys.length === 1 ? translation[keys[0]] : translation;
-
-    } catch (err) {
-        throw err;
     }
 }

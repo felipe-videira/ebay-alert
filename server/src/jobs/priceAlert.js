@@ -1,68 +1,58 @@
+const log = require('../services/log');
 const ebay = require('../services/eBay');
 const Alert = require('../models/alert');
 const Handlebars = require("handlebars");
-const { partition } = require('../utils');
 const { get } = require('../services/db');
-const logger = require('../services/logger');
-const scheduleEmail = require('../services/scheduleEmail');
-const getEmailTemplate = require('../services/getEmailTemplate');
+const { schedule, getTemplate } = require('../services/email');
+
+module.exports = (db, frequency) => {
+    try {
+        return getAlerts(db, frequency);
+    } catch (error) {
+        log.error({ message: 'priceAlert', meta: error });
+    }
+}
+
+const getAlerts = async (db, frequency) => {
+    const alerts = await get(db, Alert, { frequency: frequency.value });
+    return !!alerts.length && searchAlerts(db, frequency, alerts);
+}
+
+const searchAlerts = async (db, frequency, alerts) => {
+    const searches = [];
+    for (const alert of alerts) {
+        searches.push(ebay.findItemsByKeywords(alert.searchPhrase));
+    }
+    const items = (await Promise.allSettled(searches)
+        .then(data => handleFailed(data, 'findItemsByKeywords')))
+        .filter(o =>  o.status === 'fulfilled');
+    return !!items.length && scheduleEmails(db, frequency, alerts, items);
+}
+
+const scheduleEmails = async (db, frequency, alerts, items) => {
+    const [{ subject }, compiler] = await getEmailTemplate(db);
+    const emails = [];
+    for (let i = 0; i < items.length; i++) {
+        emails.push(schedule(db, subject, compiler(items[i].value), alerts[i].email, frequency));
+    }
+    return Promise.allSettled(emails)
+        .then(data => handleFailed(data, 'scheduleEmail'));
+}
 
 let emailTemplate = null;
 let emailCompiler = null;
-
-module.exports = async frequency => {
-    try {
-        const alerts = await get(Alert, { 
-            frequency: frequency.value, 
-        });
-
-        const searches = [];
-        for (const { searchPhrase } of alerts) {
-            searches.push(ebay.findItemsByKeywords(searchPhrase));
-        }
-        
-        const [ 
-            items, 
-            failedItems 
-        ] = partition(await Promise.allSettled(searches), o => o.status === 'fulfilled');
-
-        if (!!failedItems.length) {
-            logger.error({
-                message: 'priceAlert:findItemsByKeywords',
-                meta: failedItems
-            });
-        }
-
-        if (!items.length) return;
-
-        if (!emailTemplate) emailTemplate = await getEmailTemplate('alert');
-
-        if (!emailCompiler) emailCompiler = Handlebars.compile(emailTemplate.html);
-
-        const emails = [];
-        for (let i = 0; i < items.length; i++) {
-            emails.push(scheduleEmail(
-                emailTemplate.subject, 
-                emailCompiler(items[i].value), 
-                alerts[i].email, 
-                frequency
-            ));
-        }
-
-        const failed = (await Promise.allSettled(emails))
-            .filter(o => o.status === 'rejected');
-
-            
-        if (!!failed.length) {
-            logger.error({
-                message: 'priceAlert:scheduleEmail',
-                meta: failed
-            });
-        }
-
-    } catch (error) {
-        logger.error({ message: 'priceAlert', meta: error });
-
-        return;
-    }
+const getEmailTemplate = async db => {
+    if (!emailTemplate) emailTemplate = await getTemplate(db, 'alert');
+    if (!emailCompiler) emailCompiler = Handlebars.compile(emailTemplate.html);
+    return [ emailTemplate, emailCompiler ];
 }
+
+const handleFailed = (data, processName) => {
+    const failed = data.filter(o => o.status === 'rejected');
+    !!failed.length && log.error({ 
+        message: `priceAlert:${processName}`, 
+        meta: failed 
+    });
+}
+
+

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { emailValidation } = require('../utils');
-const validateFrequency = require('../services/validateFrequency');
 
 const emailSchema = new mongoose.Schema({
     subject: {
@@ -24,7 +23,6 @@ const emailSchema = new mongoose.Schema({
     frequency: {
         type: String,
         required: true,
-        validate: [validateFrequency, '{PATH} invalid.']
     },
     sended: {
         type: Number,

@@ -1,12 +1,6 @@
 const router = require('express').Router();
-const getFrequencies = require('../services/getFrequencies');
+const frequency = require('../controllers/frequency');
 
-router.get('/', async (req, res) => {
-    try {
-        res.json(await getFrequencies());
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-})
+router.get('/', frequency.get)
 
 module.exports = router;

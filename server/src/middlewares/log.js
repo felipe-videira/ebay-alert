@@ -1,8 +1,8 @@
-const logger = require('../services/logger');
+const log = require('../services/log');
 
 module.exports = async (req, res, next) => {
     try {
-        logger.info({ 
+        log.info({ 
             message: 'request',
             meta: {
                 url: req.originalUrl,

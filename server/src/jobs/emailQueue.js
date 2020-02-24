@@ -1,33 +1,36 @@
+const log = require('../services/log');
 const Email = require('../models/email');
 const { get } = require('../services/db');
-const logger = require('../services/logger');
-const sendEmail = require('../services/sendEmail');
+const { send } = require('../services/email');
 
-module.exports = async frequency => {
+module.exports = async (db,frequency) => {
     try {
-        const emails = await get(Email, { 
-            frequency: frequency.value, 
-            sended: 0 
-        });
-
-        const toSend = [];
-        for (const email of emails) {
-            toSend.push(sendEmail(email));
-        }
-        
-        const failed = (await Promise.allSettled(toSend))
-            .filter(o => o.status === 'rejected');
-
-        if (!!failed.length) {
-            logger.error({
-                message: 'emailQueue:sendEmail',
-                meta: failed
-            });
-        }
-
+        return getEmails(db, frequency);
     } catch (error) {
-        logger.error({ message: 'emailQueue', meta: error });
-
-        return;
+        log.error({ message: 'emailQueue', meta: error });
     }
+}
+
+const getEmails = async (db, frequency) => {
+    const emails = await get(db, Email, { 
+        frequency: frequency.value, 
+        sended: 0 
+    });
+    return !!emails.length && sendEmails(db, emails);
+}
+
+const sendEmails = async (db, emails) => {
+    const toSend = [];
+    for (const email of emails) {
+        toSend.push(send(db, email));
+    }
+    return Promise.allSettled(toSend).then(handleFailed);
+}
+
+const handleFailed = data => {
+    const failed = data.filter(o => o.status === 'rejected');
+    !!failed.length && log.error({
+        message: 'emailQueue:send',
+        meta: failed
+    });
 }

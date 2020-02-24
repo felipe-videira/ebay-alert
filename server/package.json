@@ -7,7 +7,7 @@
     "integration": "NODE_ENV=test mocha 'test/integration/**/*.test.js' --timeout 5000",
     "unit": "NODE_ENV=test mocha 'test/unit/**/*.test.js' --timeout 5000",
     "test": "npm run integration",
-    "dev": "nodemon src/index.js -L --verbose"
+    "dev": "nodemon src/app.js -L --verbose"
   },
   "author": "",
   "license": "ISC",

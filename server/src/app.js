@@ -1,21 +1,19 @@
 const cors = require('cors');
-const jobs = require('./jobs');
 const express = require('express');
 const routes = require('./routes');
-const logger = require('./middlewares/logger');
+const dbMiddleware = require('./middlewares/db');
+const logMiddleware = require('./middlewares/log');
 
-const PORT = process.env.API_PORT;
 const app = express();
+const db = require('./database')();
+const PORT = process.env.API_PORT;
 
-require('./database')();
-
-app.use(express.json());
 app.use(cors());
-
-app.use('/', logger, routes);
+app.use(express.json());
+app.use('/', dbMiddleware(db), logMiddleware, routes);
 
 if (process.env.NODE_ENV !== 'test') {
-    jobs.init();
+    require('./jobs').init(db);
 }
 
 app.listen(PORT, () => {

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { emailValidation } = require('../utils');
-const validateFrequency = require('../services/validateFrequency');
 
 const alertSchema = new mongoose.Schema({
   searchPhrase: {
@@ -12,7 +11,6 @@ const alertSchema = new mongoose.Schema({
   frequency: {
     type: String,
     required: true,
-    validate: [validateFrequency, '{PATH} invalid.']
   },
   email: {
     type: String,
