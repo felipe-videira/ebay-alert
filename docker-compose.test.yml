@@ -23,7 +23,7 @@ services:
       - ${API_PORT}:${API_PORT}
     volumes:
       - ./server/src:/usr/app/ebay-alert-api/src
-      - ./server/test:/usr/app/ebay-alert-api/test
+      - ./server/tests:/usr/app/ebay-alert-api/tests
       - ./server/package.json:/usr/app/ebay-alert-api/package.json
     depends_on:
       - db_seed
