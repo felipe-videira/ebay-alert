@@ -34,6 +34,7 @@ function ListComponent ({
       <Layout className="alert-list">
         {!!data.length && 
           <Button 
+            id="createButton"
             icon="plus"
             className="alert-list__create-btn" 
             onClick={() => onCreate()} 
@@ -47,6 +48,7 @@ function ListComponent ({
             description={t('alertListEmpty')}
           >
             <Button 
+              id="createButton"
               type="primary"
               size="large"
               onClick={() => onCreate()} 

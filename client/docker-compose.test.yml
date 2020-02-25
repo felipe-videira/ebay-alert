@@ -4,10 +4,20 @@ services:
   ebay-alert-web-test:
     build: ./
     command: npm run test
+    expose:
+      - ${PORT}
+      - 35729
+    ports:
+      - ${PORT}:3000
+      - 35729:35729
     volumes:
+      - /usr/app/ebay-alert-web/node_modules
       - ./src:/usr/app/ebay-alert-web/src
       - ./__tests__:/usr/app/ebay-alert-web/__tests__
       - ./__mocks__:/usr/app/ebay-alert-web/__mocks__
       - ./package.json:/usr/app/ebay-alert-web/package.json
     environment:
       - NODE_ENV=test
+      - REACT_APP_API_HOST=${REACT_APP_API_HOST}
+      - REACT_APP_HOST=${REACT_APP_HOST}
+      - REACT_APP_PORT=${PORT}
