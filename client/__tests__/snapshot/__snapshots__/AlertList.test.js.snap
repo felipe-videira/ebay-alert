@@ -53,6 +53,7 @@ exports[`AlertList snapshot tests renders correctly on default values 1`] = `
     >
       <button
         className="ant-btn ant-btn-primary ant-btn-lg"
+        id="createButton"
         onClick={[Function]}
         type="button"
       >
@@ -118,6 +119,7 @@ exports[`AlertList snapshot tests renders correctly on loading 1`] = `
     >
       <button
         className="ant-btn ant-btn-primary ant-btn-lg"
+        id="createButton"
         onClick={[Function]}
         type="button"
       >
@@ -183,6 +185,7 @@ exports[`AlertList snapshot tests renders correctly on mobile mode 1`] = `
     >
       <button
         className="ant-btn ant-btn-primary ant-btn-lg"
+        id="createButton"
         onClick={[Function]}
         type="button"
       >
@@ -248,6 +251,7 @@ exports[`AlertList snapshot tests renders correctly when has more to load 1`] = 
     >
       <button
         className="ant-btn ant-btn-primary ant-btn-lg"
+        id="createButton"
         onClick={[Function]}
         type="button"
       >
@@ -266,6 +270,7 @@ exports[`AlertList snapshot tests renders correctly with data 1`] = `
 >
   <button
     className="ant-btn alert-list__create-btn"
+    id="createButton"
     onClick={[Function]}
     type="button"
   >
@@ -629,6 +634,7 @@ exports[`AlertList snapshot tests renders correctly with data and custom keys 1`
     >
       <button
         className="ant-btn ant-btn-primary ant-btn-lg"
+        id="createButton"
         onClick={[Function]}
         type="button"
       >

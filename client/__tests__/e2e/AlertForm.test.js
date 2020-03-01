@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime";
 import faker from 'faker';
 import puppeteer from 'puppeteer';
 import UserAgent from 'user-agents';
@@ -7,11 +8,14 @@ let browser
 let page
 
 describe('AlertForm e2e tests', () => {
-  beforeAll(async () => {
-    browser = await puppeteer.launch({ headless: false, slowMo: 250 });
-    page = await browser.newPage();
-  })
   it('renders correctly', async () => {
+    if (!browser) browser = await puppeteer.launch({ 
+      headless: false, 
+      slowMo: 250,
+      executablePath: process.env.CHROMIUM_PATH,
+      args: ['--no-sandbox'], 
+    });
+    if (!page) page = await browser.newPage();
     page.emulate({
       viewport: { width: 360, height: 640 },
       userAgent: (new UserAgent({ deviceCategory: 'mobile' })).toString()
@@ -20,8 +24,9 @@ describe('AlertForm e2e tests', () => {
     await page.waitForSelector('#createButton');
     await page.click('#createButton');
     await page.waitForSelector('.alert-form');
-  });
-  afterAll(() => {
     browser.close()
-  })
+    page = null;
+    browser = null;
+  });
 })
+

@@ -49,6 +49,12 @@ A web app to manage alerts for products prices on Ebay.com. Using Node.js, React
 ```bash
   docker-compose -f docker-compose.test.yml up --scale db=0 --scale db_seed=0 --scale server=0
 ```
+#### If you see the error "no space left on device"
+```bash
+  docker system prune -af
+```
+
+
 
 ## Main libraries used
   [axios](https://www.npmjs.com/package/axios) 

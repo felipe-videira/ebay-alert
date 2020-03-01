@@ -48,7 +48,7 @@ services:
       - ./client/__mocks__:/usr/app/ebay-alert-web/__mocks__
       - ./client/package.json:/usr/app/ebay-alert-web/package.json
     depends_on:
-      - server
+      - server-test
     environment:
       - NODE_ENV=test
       - REACT_APP_API_HOST=${REACT_APP_API_HOST}
