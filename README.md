@@ -19,6 +19,10 @@ A web app to manage alerts for products prices on Ebay.com. Using Node.js, React
 ```bash
   docker-compose up --build
 ```
+- (optional) If you are on Linux you may need sudo:
+```bash
+  sudo docker-compose up --build
+```
 
 ## Useful tips
 #### First time (after setting up the .env file)
